@@ -4,9 +4,15 @@ interface LibraryMockupProps {
   badge?: string;
   compact?: boolean;
   className?: string;
+  categories?: string[];
 }
 
-export function LibraryMockup({ badge, compact = false, className = "" }: LibraryMockupProps) {
+export function LibraryMockup({
+  badge,
+  compact = false,
+  className = "",
+  categories = heroContent.categories,
+}: LibraryMockupProps) {
   return (
     <div className={`relative ${className}`}>
       <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-2xl shadow-black/40">
@@ -26,7 +32,7 @@ export function LibraryMockup({ badge, compact = false, className = "" }: Librar
             Catégories
           </p>
           <div className="flex flex-wrap gap-2">
-            {heroContent.categories.map((category) => (
+            {categories.map((category) => (
               <span
                 key={category}
                 className="rounded-full border border-line-soft bg-surface-2 px-3 py-1.5 text-xs font-medium text-slate-200"
@@ -37,23 +43,34 @@ export function LibraryMockup({ badge, compact = false, className = "" }: Librar
           </div>
 
           <div className="mt-4 space-y-2">
-            {[0, 1, 2].map((row) => (
-              <div
-                key={row}
-                className="flex items-center gap-3 rounded-lg border border-line bg-surface-2/60 px-3 py-2.5"
-              >
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-accent/15 text-accent">
-                  <IconFolder className="h-3.5 w-3.5" />
-                </span>
-                <div className="flex-1 space-y-1.5">
-                  <div className="h-1.5 w-2/3 rounded-full bg-line-soft/80" />
-                  <div className="h-1.5 w-1/3 rounded-full bg-line-soft/40" />
+            {["Solution SaaS", "Application mobile", "Script PHP"].map(
+              (label) => (
+                <div
+                  key={label}
+                  className="flex items-center gap-3 rounded-lg border border-line bg-surface-2/60 px-3.5 py-2.5"
+                >
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-accent/15 text-accent">
+                    <IconFolder className="h-3.5 w-3.5" />
+                  </span>
+                  <span className="flex-1 truncate text-xs font-medium text-slate-200">
+                    {label}
+                  </span>
+                  <span aria-hidden="true" className="shrink-0 text-muted">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="h-3.5 w-3.5"
+                    >
+                      <path d="m9 18 6-6-6-6" />
+                    </svg>
+                  </span>
                 </div>
-                <span className="rounded bg-accent/10 px-2 py-0.5 text-[10px] font-semibold text-accent">
-                  Base
-                </span>
-              </div>
-            ))}
+              )
+            )}
           </div>
         </div>
       </div>

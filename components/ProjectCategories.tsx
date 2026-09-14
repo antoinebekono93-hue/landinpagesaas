@@ -70,7 +70,7 @@ export function ProjectCategories() {
           </p>
           <div className="mt-4 flex justify-center">
             <WhatsAppButton location="categories" size="lg">
-              Expliquer mon projet à MERCO
+              Parler à MERCO sur WhatsApp
             </WhatsAppButton>
           </div>
         </div>

@@ -1,31 +1,34 @@
+import { WHATSAPP_LINK_HOME } from "@/lib/constants";
 import { WhatsAppButton } from "./WhatsAppButton";
 
 const profiles = [
   {
     title: "Développeurs",
-    text: "Gagnez du temps en partant de bases existantes.",
+    text: "Gagnez du temps avec des bases techniques existantes.",
   },
   {
     title: "Entrepreneurs",
-    text: "Explorez des solutions pouvant servir de base à votre prochain projet.",
+    text: "Explorez des solutions pour lancer un projet ou un business digital.",
   },
   {
     title: "Entreprises",
-    text: "Identifiez des outils adaptés à vos besoins numériques.",
+    text: "Identifiez des outils pour la gestion, le marketing, le CRM, l'e-commerce et plus.",
   },
   {
     title: "Freelances & agences",
-    text: "Accélérez certains projets clients avec des solutions existantes.",
+    text: "Accélérez certains projets clients avec des ressources existantes.",
   },
 ];
 
-export function Profiles() {
+export function HomeProfiles() {
   return (
-    <section className="section-pad border-t border-line">
+    <section className="section-pad border-t border-line bg-surface/[0.35]">
       <div className="container-page">
         <div className="mx-auto max-w-2xl text-center">
           <p className="section-eyebrow">Pour qui ?</p>
-          <h2 className="section-title">MERCO s&apos;adapte à votre profil</h2>
+          <h2 className="section-title">
+            MERCO s&apos;adapte à votre profil
+          </h2>
         </div>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -42,8 +45,12 @@ export function Profiles() {
         </div>
 
         <div className="mt-10 flex justify-center">
-          <WhatsAppButton location="profiles" size="lg">
-            Parler à MERCO sur WhatsApp
+          <WhatsAppButton
+            location="profiles"
+            link={WHATSAPP_LINK_HOME}
+            size="lg"
+          >
+            Trouver une solution adaptée
           </WhatsAppButton>
         </div>
       </div>

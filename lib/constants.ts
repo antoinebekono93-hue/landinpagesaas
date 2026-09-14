@@ -7,6 +7,13 @@ export const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIC
   WHATSAPP_MESSAGE
 )}`;
 
+export const WHATSAPP_MESSAGE_HOME =
+  "Bonjour MERCO 👋 Je souhaite découvrir vos applications, scripts, solutions SaaS et opportunités digitales.";
+
+export const WHATSAPP_LINK_HOME = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+  WHATSAPP_MESSAGE_HOME
+)}`;
+
 export const PRICE_TEXT = "10 000 FCFA";
 
 export const DEMO_URL = "";

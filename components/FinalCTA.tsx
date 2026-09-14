@@ -18,7 +18,7 @@ export function FinalCTA() {
         </p>
         <div className="mx-auto mt-8 max-w-md sm:max-w-none sm:flex sm:justify-center">
           <WhatsAppButton location="final_cta" size="lg" fullWidth>
-            Expliquer mon projet sur WhatsApp
+            Parler à MERCO sur WhatsApp
           </WhatsAppButton>
         </div>
         <p className="mt-4 text-sm text-muted">

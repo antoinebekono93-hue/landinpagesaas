@@ -96,9 +96,9 @@ WhatsApp reste prérempli : `lib/constants.ts` > `WHATSAPP_MESSAGE`.
 ## Démo vidéo
 
 L'URL de démonstration se centralise dans `lib/constants.ts` > `DEMO_URL`.
-Tant qu'elle est vide, la page affiche un mockup léger avec le bouton
-« Voir la démo » menant à WhatsApp. Aucune vidéo n'est chargée au chargement
-initial ; le player n'est monté qu'au clic.
+Tant qu'elle est vide, la page affiche un mockup léger avec un bouton
+« Voir la démo sur WhatsApp » ouvrant WhatsApp. Aucune vidéo n'est chargée au
+chargement initial ; le player n'est monté qu'au clic.
 
 ## Personnalisation
 

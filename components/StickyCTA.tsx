@@ -5,7 +5,17 @@ import { WHATSAPP_LINK } from "@/lib/constants";
 import { trackWhatsAppClick } from "@/lib/tracking";
 import { getWhatsAppHref } from "@/lib/utm";
 
-export function StickyCTA() {
+interface StickyCTAProps {
+  link?: string;
+  label?: string;
+  ariaLabel?: string;
+}
+
+export function StickyCTA({
+  link = WHATSAPP_LINK,
+  label = "💬 Parler à MERCO",
+  ariaLabel = "Parler à MERCO sur WhatsApp (nouvel onglet)",
+}: StickyCTAProps) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -30,8 +40,8 @@ export function StickyCTA() {
 
   function handleClick(event: React.MouseEvent<HTMLAnchorElement>) {
     trackWhatsAppClick("sticky_mobile");
-    const href = getWhatsAppHref(WHATSAPP_LINK);
-    if (href !== WHATSAPP_LINK) {
+    const href = getWhatsAppHref(link);
+    if (href !== link) {
       event.preventDefault();
       window.open(href, "_blank", "noopener,noreferrer");
     }
@@ -39,10 +49,10 @@ export function StickyCTA() {
 
   return (
     <a
-      href={WHATSAPP_LINK}
+      href={link}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Découvrir MERCO sur WhatsApp (nouvel onglet)"
+      aria-label={ariaLabel}
       onClick={handleClick}
       className={`fixed inset-x-4 bottom-4 z-50 flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-slate-950 shadow-2xl shadow-accent/30 transition-all duration-300 sm:hidden ${
         visible
@@ -51,7 +61,7 @@ export function StickyCTA() {
       }`}
       style={{ paddingBottom: "calc(0.9rem + env(safe-area-inset-bottom))" }}
     >
-      💬 Découvrir MERCO
+      {label}
     </a>
   );
 }

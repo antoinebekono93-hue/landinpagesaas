@@ -8,6 +8,7 @@ import { WhatsAppIcon } from "./WhatsAppIcon";
 interface WhatsAppButtonProps {
   children: React.ReactNode;
   location: string;
+  link?: string;
   variant?: "primary" | "outline";
   size?: "md" | "lg";
   className?: string;
@@ -18,6 +19,7 @@ interface WhatsAppButtonProps {
 export function WhatsAppButton({
   children,
   location,
+  link = WHATSAPP_LINK,
   variant = "primary",
   size = "md",
   className = "",
@@ -44,8 +46,8 @@ export function WhatsAppButton({
 
   function handleClick(event: React.MouseEvent<HTMLAnchorElement>) {
     trackWhatsAppClick(location);
-    const href = getWhatsAppHref(WHATSAPP_LINK);
-    if (href !== WHATSAPP_LINK) {
+    const href = getWhatsAppHref(link);
+    if (href !== link) {
       event.preventDefault();
       window.open(href, "_blank", "noopener,noreferrer");
     }
@@ -53,7 +55,7 @@ export function WhatsAppButton({
 
   return (
     <a
-      href={WHATSAPP_LINK}
+      href={link}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={ariaLabel ?? `${label} sur WhatsApp (nouvel onglet)`}

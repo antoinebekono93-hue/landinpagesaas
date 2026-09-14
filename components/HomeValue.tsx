@@ -1,10 +1,11 @@
-import { IconBulb, IconRocket, IconSearch } from "./icons";
+import { WHATSAPP_LINK_HOME } from "@/lib/constants";
+import { IconCompass, IconBulb, IconRocket } from "./icons";
 import { WhatsAppButton } from "./WhatsAppButton";
 
 const cards = [
   {
-    title: "Lancez plus vite",
-    text: "Partez d'une solution existante plutôt que de recommencer chaque projet entièrement de zéro.",
+    title: "Ne repartez pas de zéro",
+    text: "Utilisez des solutions existantes comme base pour accélérer certains projets.",
     icon: <IconRocket className="h-6 w-6" />,
   },
   {
@@ -13,21 +14,19 @@ const cards = [
     icon: <IconBulb className="h-6 w-6" />,
   },
   {
-    title: "Profitez de notre veille",
-    text: "Notre équipe de 12 développeurs sélectionne, analyse et organise régulièrement de nouvelles ressources.",
-    icon: <IconSearch className="h-6 w-6" />,
+    title: "Faites-vous orienter",
+    text: "MERCO vous aide à identifier les catégories et solutions correspondant à votre besoin.",
+    icon: <IconCompass className="h-6 w-6" />,
   },
 ];
 
-export function ProblemSolution() {
+export function HomeValue() {
   return (
-    <section className="section-pad border-t border-line">
+    <section id="valeur" className="section-pad border-t border-line">
       <div className="container-page">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="section-eyebrow">Le principe</p>
-          <h2 className="section-title">
-            Pourquoi repartir de zéro si une base existe déjà ?
-          </h2>
+          <p className="section-eyebrow">La valeur MERCO</p>
+          <h2 className="section-title">De l&apos;idée au projet plus rapidement</h2>
         </div>
 
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -47,8 +46,12 @@ export function ProblemSolution() {
         </div>
 
         <div className="mt-10 flex justify-center">
-          <WhatsAppButton location="problem_solution" size="lg">
-            Parler à MERCO sur WhatsApp
+          <WhatsAppButton
+            location="transformation"
+            link={WHATSAPP_LINK_HOME}
+            size="lg"
+          >
+            Parler de mon projet à MERCO
           </WhatsAppButton>
         </div>
       </div>

@@ -37,7 +37,11 @@ export function DemoVideo() {
     <button
       type="button"
       onClick={handleClick}
-      aria-label="Voir la démo MERCO"
+      aria-label={
+        DEMO_URL
+          ? "Voir la démo MERCO"
+          : "Voir la démo sur WhatsApp (nouvel onglet)"
+      }
       className="relative block w-full cursor-pointer overflow-hidden rounded-2xl border border-line bg-surface text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
     >
       <LibraryMockup compact className="pointer-events-none" />
@@ -46,7 +50,7 @@ export function DemoVideo() {
           <IconPlay className="h-6 w-6 pl-0.5" />
         </span>
         <span className="rounded-full border border-line-soft bg-background/90 px-4 py-1.5 text-sm font-semibold text-white">
-          Voir la démo
+          {DEMO_URL ? "Voir la démo" : "Voir la démo sur WhatsApp"}
         </span>
       </span>
     </button>

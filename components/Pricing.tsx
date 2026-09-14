@@ -1,4 +1,4 @@
-import { PRICE_TEXT } from "@/lib/constants";
+import { PRICE_TEXT, WHATSAPP_LINK } from "@/lib/constants";
 import { IconCheck } from "./icons";
 import { WhatsAppButton } from "./WhatsAppButton";
 
@@ -13,7 +13,15 @@ const included = [
   "Démonstration disponible avant achat",
 ];
 
-export function Pricing() {
+interface PricingProps {
+  link?: string;
+  cta?: string;
+}
+
+export function Pricing({
+  link = WHATSAPP_LINK,
+  cta = "Parler à MERCO sur WhatsApp",
+}: PricingProps) {
   return (
     <section id="prix" className="section-pad border-t border-line">
       <div className="container-page">
@@ -44,8 +52,8 @@ export function Pricing() {
             </ul>
 
             <div className="mt-8">
-              <WhatsAppButton location="pricing" size="lg" fullWidth>
-                Découvrir MERCO
+              <WhatsAppButton location="pricing" link={link} size="lg" fullWidth>
+                {cta}
               </WhatsAppButton>
             </div>
             <p className="mt-4 text-center text-xs leading-relaxed text-muted">

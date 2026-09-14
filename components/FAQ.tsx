@@ -1,31 +1,10 @@
-const faqs = [
-  {
-    q: "C'est vraiment 10 000 FCFA à vie ?",
-    a: "Oui. Le tarif actuel de MERCO est un paiement unique de 10 000 FCFA pour un accès à vie, sans abonnement mensuel.",
-  },
-  {
-    q: "Dois-je payer chaque application ?",
-    a: "Non. Les 10 000 FCFA correspondent à l'accès MERCO et non à l'achat d'une seule application.",
-  },
-  {
-    q: "Puis-je voir avant de payer ?",
-    a: "Oui. Vous pouvez demander une démonstration sur WhatsApp avant de décider.",
-  },
-  {
-    q: "Je ne suis pas développeur. Est-ce pour moi ?",
-    a: "Oui. MERCO peut également orienter les entrepreneurs, entreprises et particuliers vers des solutions adaptées à leur projet.",
-  },
-  {
-    q: "Puis-je revendre toutes les applications ?",
-    a: "Non. Les droits dépendent de la licence et des conditions propres à chaque ressource. MERCO ne garantit pas un droit universel de revente ou de redistribution.",
-  },
-  {
-    q: "Est-ce que MERCO garantit que mon SaaS sera rentable ?",
-    a: "Non. MERCO fournit des ressources, de la veille et de l'orientation. La réussite d'un projet dépend du marché, de l'exécution, du marketing et de nombreux autres facteurs.",
-  },
-];
+import { landingFaqs } from "@/lib/content";
 
-export function FAQ() {
+interface FAQProps {
+  items?: { q: string; a: string }[];
+}
+
+export function FAQ({ items = landingFaqs }: FAQProps) {
   return (
     <section id="faq" className="section-pad border-t border-line bg-surface/[0.35]">
       <div className="container-page">
@@ -35,7 +14,7 @@ export function FAQ() {
         </div>
 
         <div className="mx-auto mt-10 max-w-2xl space-y-3">
-          {faqs.map((faq) => (
+          {items.map((faq) => (
             <details
               key={faq.q}
               className="group rounded-xl border border-line bg-surface open:border-accent/40"

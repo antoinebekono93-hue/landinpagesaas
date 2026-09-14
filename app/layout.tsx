@@ -2,20 +2,22 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Analytics } from "@/components/Analytics";
 
-const SITE_URL = "https://merco-landing.vercel.app";
+const SITE_URL = "https://landinpagesaas.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "MERCO – Lancez votre SaaS plus rapidement",
+  title: "MERCO – Applications, Scripts & Solutions SaaS",
   description:
-    "Découvrez des applications, scripts et solutions SaaS avec MERCO. Accès à vie à 10 000 FCFA et démonstration disponible.",
+    "Accédez à vie à une bibliothèque d'applications, scripts et solutions SaaS avec MERCO. Paiement unique de 10 000 FCFA.",
   keywords: [
-    "créer un SaaS",
-    "lancer un SaaS",
-    "micro SaaS",
-    "code source SaaS",
-    "solution SaaS clé en main",
     "MERCO",
+    "applications",
+    "scripts",
+    "solutions SaaS",
+    "accès à vie",
+    "bibliothèque numérique",
+    "développeurs",
+    "entrepreneurs",
   ],
   alternates: {
     canonical: "/",
@@ -25,15 +27,15 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     url: "/",
     siteName: "MERCO",
-    title: "MERCO – Lancez votre SaaS plus rapidement",
+    title: "MERCO – Applications, Scripts & Solutions SaaS",
     description:
-      "Découvrez des applications, scripts et solutions SaaS avec MERCO. Accès à vie à 10 000 FCFA et démonstration disponible.",
+      "Accédez à vie à une bibliothèque d'applications, scripts et solutions SaaS avec MERCO. Paiement unique de 10 000 FCFA.",
   },
   twitter: {
     card: "summary",
-    title: "MERCO – Lancez votre SaaS plus rapidement",
+    title: "MERCO – Applications, Scripts & Solutions SaaS",
     description:
-      "Découvrez des applications, scripts et solutions SaaS avec MERCO.",
+      "Accédez à vie à une bibliothèque d'applications, scripts et solutions SaaS avec MERCO.",
   },
   robots: {
     index: true,

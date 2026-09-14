@@ -1,18 +1,21 @@
-import { DEMO_URL } from "@/lib/constants";
+import { WHATSAPP_LINK_HOME } from "@/lib/constants";
 import { DemoVideo } from "./DemoVideo";
 import { IconCheck } from "./icons";
 import { WhatsAppButton } from "./WhatsAppButton";
 
 const highlights = [
-  "Aperçu de la bibliothèque",
-  "Exemples de catégories",
-  "Types de solutions disponibles",
-  "Démonstration avant paiement",
+  "aperçu de la bibliothèque",
+  "catégories disponibles",
+  "types de solutions",
+  "démonstration avant paiement",
 ];
 
-export function Demo() {
+export function HomeDemo() {
   return (
-    <section className="section-pad border-t border-line bg-surface/[0.35]">
+    <section
+      id="demo"
+      className="section-pad border-t border-line bg-surface/[0.35]"
+    >
       <div className="container-page">
         <div className="mx-auto max-w-2xl text-center">
           <p className="section-eyebrow">Démonstration</p>
@@ -27,22 +30,24 @@ export function Demo() {
           <DemoVideo />
         </div>
 
-        <ul className="mx-auto mt-7 grid max-w-2xl gap-x-6 gap-y-2 text-left sm:grid-cols-2">
+        <ul className="mx-auto mt-7 flex max-w-2xl flex-col items-start gap-2 text-sm text-muted sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-x-6">
           {highlights.map((item) => (
-            <li key={item} className="flex items-center gap-2 text-sm text-muted">
+            <li key={item} className="flex items-center gap-2">
               <IconCheck className="h-4 w-4 shrink-0 text-accent" />
               {item}
             </li>
           ))}
         </ul>
 
-        {DEMO_URL ? (
-          <div className="mt-8 flex justify-center">
-            <WhatsAppButton location="demo" size="lg">
-              Voir la démo sur WhatsApp
-            </WhatsAppButton>
-          </div>
-        ) : null}
+        <div className="mt-8 flex justify-center">
+          <WhatsAppButton
+            location="demo"
+            link={WHATSAPP_LINK_HOME}
+            size="lg"
+          >
+            Voir la démonstration
+          </WhatsAppButton>
+        </div>
       </div>
     </section>
   );

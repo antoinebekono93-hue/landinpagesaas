@@ -3,10 +3,10 @@ import { IconCheck } from "./icons";
 const points = [
   "équipe de 12 développeurs",
   "veille régulière",
-  "ressources numériques organisées par catégories",
+  "bibliothèque organisée par catégories",
   "démonstration disponible avant achat",
-  "accès à vie pour le tarif actuel",
-  "accompagnement pour identifier une solution",
+  "accès à vie",
+  "accompagnement après activation",
 ];
 
 export function Trust() {
