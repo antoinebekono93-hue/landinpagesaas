@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { EVENT_PLAN_VIEW } from "@/lib/constants";
+import { PLANS } from "@/lib/business-pricing";
 import { trackEvent } from "@/lib/tracking";
 
 /**
@@ -18,7 +19,15 @@ export function PlanViewTracker() {
       (entries) => {
         if (entries[0]?.isIntersecting && !sent.current) {
           sent.current = true;
-          trackEvent(EVENT_PLAN_VIEW, { location: "pricing" });
+          for (const plan of PLANS) {
+            trackEvent(EVENT_PLAN_VIEW, {
+              location: "pricing",
+              plan: plan.id,
+              intro_price: plan.introductoryMonthlyPrice,
+              regular_price: plan.regularMonthlyPrice,
+              intro_months: plan.introductoryMonths,
+            });
+          }
           observer.disconnect();
         }
       },

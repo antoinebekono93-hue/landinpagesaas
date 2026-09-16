@@ -27,11 +27,11 @@ export const WHATSAPP_LINK_DEMO = `https://wa.me/${WHATSAPP_NUMBER}?text=${encod
 
 /* ── Business plan messages ── */
 export const WHATSAPP_MESSAGE_STARTER =
-  "Bonjour MERCO 👋 Je souhaite souscrire au plan BUSINESS STARTER à 5 000 FCFA/mois et choisir mes 2 SaaS.";
+  "Bonjour MERCO 👋 Je souhaite démarrer BUSINESS STARTER à 9 $/mois pendant les 12 premiers mois. J'ai compris que le tarif passe ensuite à 45 $/mois.";
 export const WHATSAPP_LINK_STARTER = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE_STARTER)}`;
 
 export const WHATSAPP_MESSAGE_PRO =
-  "Bonjour MERCO 👋 Je souhaite souscrire au plan BUSINESS PRO à 10 000 FCFA/mois et choisir mes 5 SaaS.";
+  "Bonjour MERCO 👋 Je souhaite démarrer BUSINESS PRO à 18 $/mois pendant les 12 premiers mois. J'ai compris que le tarif passe ensuite à 65 $/mois.";
 export const WHATSAPP_LINK_PRO = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE_PRO)}`;
 
 export function saasSelectMessage(saaSName: string) {
@@ -50,48 +50,8 @@ export const EVENT_LIBRARY_ALT = "library_alternative_click";
 export const EVENT_PLAN_VIEW = "business_plan_view";
 export const EVENT_NAVIGATION = "navigation_click";
 
-/* ── Plans ── */
-export const PLAN_STARTER = {
-  id: "starter",
-  name: "Business Starter",
-  badge: null as string | null,
-  price: "5 000 FCFA",
-  priceDetail: "/mois",
-  saasLimit: 2,
-  promise: "Lancez jusqu'à 2 SaaS",
-  cta: "Démarrer avec 2 SaaS",
-  features: [
-    "Jusqu'à 2 SaaS actifs",
-    "Hébergement inclus selon les limites du plan",
-    "SSL",
-    "Maintenance technique de base",
-    "Accès administrateur selon la solution",
-    "Orientation MERCO",
-    "Possibilité de remplacer un SaaS selon les conditions MERCO",
-    "Support WhatsApp",
-  ],
-} as const;
-
-export const PLAN_PRO = {
-  id: "pro",
-  name: "Business Pro",
-  badge: "Le plus populaire",
-  price: "10 000 FCFA",
-  priceDetail: "/mois",
-  saasLimit: 5,
-  promise: "Lancez jusqu'à 5 SaaS",
-  cta: "Démarrer avec 5 SaaS",
-  features: [
-    "Jusqu'à 5 SaaS actifs",
-    "Hébergement inclus selon les limites du plan",
-    "SSL",
-    "Maintenance technique de base",
-    "Accès administrateur selon la solution",
-    "Orientation MERCO",
-    "Possibilité de construire un portefeuille de plusieurs services",
-    "Support WhatsApp",
-  ],
-} as const;
+/* ── Plans (single source of truth in lib/business-pricing.ts) ── */
+export { PRO as PLAN_PRO, STARTER as PLAN_STARTER } from "./business-pricing";
 
 /* ── Library price (secondary) ── */
 export const LIBRARY_PRICE = "10 000 FCFA";

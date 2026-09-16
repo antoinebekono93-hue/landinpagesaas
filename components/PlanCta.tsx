@@ -1,6 +1,7 @@
 "use client";
 
 import { EVENT_PLAN_INTENT } from "@/lib/constants";
+import { businessPlanById } from "@/lib/business-pricing";
 import { trackEvent } from "@/lib/tracking";
 import { getWhatsAppHref } from "@/lib/utm";
 import { WhatsAppIcon } from "./WhatsAppIcon";
@@ -21,7 +22,14 @@ export function PlanCta({
   variant = "primary",
 }: PlanCtaProps) {
   function handleClick(event: React.MouseEvent<HTMLAnchorElement>) {
-    trackEvent(EVENT_PLAN_INTENT, { plan, location });
+    const pricing = businessPlanById(plan);
+    trackEvent(EVENT_PLAN_INTENT, {
+      plan,
+      location,
+      intro_price: pricing.introductoryMonthlyPrice,
+      regular_price: pricing.regularMonthlyPrice,
+      intro_months: pricing.introductoryMonths,
+    });
     const href = getWhatsAppHref(link);
     if (href !== link) {
       event.preventDefault();

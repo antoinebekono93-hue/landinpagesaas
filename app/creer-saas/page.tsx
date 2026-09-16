@@ -19,9 +19,9 @@ import { Footer } from "@/components/Footer";
 import { BusinessStickyCTA } from "@/components/BusinessStickyCTA";
 
 export const metadata: Metadata = {
-  title: "MERCO Business – Lancez votre propre SaaS dès 5 000 FCFA/mois",
+  title: "MERCO Business – Lancez votre SaaS dès 9 $/mois",
   description:
-    "Choisissez 2 ou 5 solutions SaaS, MERCO s'occupe de la mise en ligne et de l'hébergement prévu par votre plan. Lancez votre activité SaaS plus simplement.",
+    "Choisissez jusqu'à 2 ou 5 SaaS avec MERCO Business. Prix de lancement dès 9 $/mois pendant vos 12 premiers mois.",
   alternates: {
     canonical: "/creer-saas",
   },
@@ -30,9 +30,9 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     url: "/creer-saas",
     siteName: "MERCO",
-    title: "MERCO Business – Lancez votre propre SaaS dès 5 000 FCFA/mois",
+    title: "MERCO Business – Lancez votre SaaS dès 9 $/mois",
     description:
-      "Choisissez 2 ou 5 solutions SaaS, MERCO s'occupe de la mise en ligne et de l'hébergement prévu par votre plan. Lancez votre activité SaaS plus simplement.",
+      "Choisissez jusqu'à 2 ou 5 SaaS avec MERCO Business. Prix de lancement dès 9 $/mois pendant vos 12 premiers mois.",
   },
 };
 

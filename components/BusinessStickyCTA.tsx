@@ -23,8 +23,11 @@ export function BusinessStickyCTA() {
         onClick={handleClick}
         className="w-full rounded-full bg-accent px-5 py-3.5 text-sm font-bold text-slate-950 transition-colors hover:bg-[#1fce5e]"
       >
-        Lancer mes SaaS dès 5 000 F/mois
+        Lancer mes SaaS dès 9 $/mois
       </button>
+      <p className="mt-1.5 text-center text-[11px] font-medium text-muted">
+        Prix de lancement pendant vos 12 premiers mois.
+      </p>
     </div>
   );
 }

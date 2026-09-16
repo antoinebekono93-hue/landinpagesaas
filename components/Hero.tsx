@@ -35,19 +35,22 @@ export function Hero() {
 
             <div className="mt-7">
               <p className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
-                À partir de 5 000 FCFA / mois
+                Dès 9 $/mois la première année
               </p>
-              <p className="mt-1.5 text-sm font-medium text-slate-300">
-                2 SaaS avec Starter • 5 SaaS avec Pro
+              <p className="mt-1.5 text-sm font-medium text-saas">
+                Prix de lancement pendant vos 12 premiers mois.
+              </p>
+              <p className="mt-1 text-xs text-slate-300">
+                Puis 45 $/mois pour Starter • 65 $/mois pour Pro
               </p>
             </div>
 
             <div className="mx-auto mt-8 max-w-md space-y-3 sm:max-w-none sm:flex sm:items-center sm:justify-center sm:space-y-0 sm:gap-3 lg:justify-start">
               <a
-                href="#catalogue"
+                href="#tarifs"
                 className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-base font-semibold text-slate-950 transition-colors hover:bg-[#1fce5e] sm:w-auto"
               >
-                Voir les SaaS disponibles
+                Voir les offres
               </a>
               <WhatsAppButton
                 location="hero_whatsapp"

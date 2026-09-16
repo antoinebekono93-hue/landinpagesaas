@@ -7,12 +7,19 @@ import {
   IconCheck,
   IconLayers,
 } from "@/components/icons";
-import { PLAN_PRO, WHATSAPP_LINK_PRO } from "@/lib/constants";
+import { PRO } from "@/lib/business-pricing";
+import {
+  monthlyPrice,
+  priceLabel,
+  regularStartMonth,
+  yearlySavings,
+} from "@/lib/business-pricing";
+import { WHATSAPP_LINK_PRO } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "MERCO Business Pro – Lancez jusqu'à 5 SaaS",
+  title: "MERCO Pro – Jusqu'à 5 SaaS dès 18 $/mois",
   description:
-    "Lancez jusqu'à 5 SaaS actifs pour 10 000 FCFA/mois avec MERCO Business Pro. Construisez un portefeuille de services numériques plus facilement.",
+    "Lancez jusqu'à 5 SaaS actifs à 18 $/mois pendant vos 12 premiers mois, puis 65 $/mois. Construisez un portefeuille de services numériques avec MERCO Business.",
   alternates: {
     canonical: "/creer-saas/pro",
   },
@@ -21,9 +28,9 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     url: "/creer-saas/pro",
     siteName: "MERCO",
-    title: "MERCO Business Pro – Lancez jusqu'à 5 SaaS",
+    title: "MERCO Pro – Jusqu'à 5 SaaS dès 18 $/mois",
     description:
-      "Lancez jusqu'à 5 SaaS actifs pour 10 000 FCFA/mois avec MERCO Business Pro.",
+      "Lancez jusqu'à 5 SaaS actifs à 18 $/mois pendant vos 12 premiers mois, puis 65 $/mois.",
   },
 };
 
@@ -60,12 +67,14 @@ export default function ProPage() {
       <section className="container-page py-10 sm:py-14">
         <div className="mx-auto max-w-2xl text-center">
           <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Construisez votre portefeuille de SaaS
+            Lancez jusqu&apos;à {PRO.saasLimit} SaaS pour{" "}
+            {monthlyPrice(PRO.introductoryMonthlyPrice)}
           </h1>
           <p className="mx-auto mt-4 max-w-xl leading-relaxed text-muted">
-            Avec le plan Pro, plusieurs solutions actives, une seule
-            souscription. MERCO gère la mise en ligne et l&apos;hébergement
-            prévus par votre plan.
+            Tarif de lancement pendant vos 12 premiers mois. Puis{" "}
+            {monthlyPrice(PRO.regularMonthlyPrice)}. Plusieurs solutions
+            actives, une seule souscription. MERCO gère la mise en ligne et
+            l&apos;hébergement prévus par votre plan.
           </p>
         </div>
 
@@ -75,20 +84,36 @@ export default function ProPage() {
               aria-hidden="true"
               className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-accent/10 blur-2xl"
             />
-            <div className="flex items-center justify-center gap-3">
+            <div className="flex flex-wrap items-center justify-center gap-2">
               <span className="inline-block rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-accent">
-                {PLAN_PRO.name}
+                {PRO.name}
               </span>
               <span className="rounded-full bg-accent px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-slate-950">
-                Le plus populaire
+                {PRO.badge}
+              </span>
+              <span className="rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-accent">
+                {PRO.launchBadge}
               </span>
             </div>
-            <p className="mt-5 text-4xl font-bold tracking-tight text-white sm:text-5xl">
-              10 000 FCFA
-              <span className="text-lg font-semibold text-muted"> /mois</span>
+
+            <p className="mt-5 text-sm font-semibold text-muted line-through">
+              {monthlyPrice(PRO.regularMonthlyPrice)}
+            </p>
+            <p className="mt-1 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+              {PRO.introductoryMonthlyPrice} $
+              <span className="text-lg font-semibold text-muted">/mois</span>
+            </p>
+            <p className="mt-1.5 text-sm font-semibold text-saas">
+              pendant vos {PRO.introductoryMonths} premiers mois
+            </p>
+            <p className="mt-1 text-sm text-muted">
+              {`À partir du ${regularStartMonth(PRO)}e mois : ${monthlyPrice(PRO.regularMonthlyPrice)}`}
             </p>
             <p className="mt-2 text-sm font-medium text-saas">
-              Jusqu&apos;à 5 SaaS actifs
+              Jusqu&apos;à {PRO.saasLimit} SaaS actifs
+            </p>
+            <p className="mt-4 inline-flex w-fit items-center gap-2 rounded-full border border-accent/20 bg-accent/10 px-4 py-1.5 text-sm font-semibold text-accent">
+              Économisez {priceLabel(yearlySavings(PRO))} la première année
             </p>
 
             <ul className="mx-auto mt-6 max-w-sm space-y-2.5 text-left">
@@ -106,7 +131,7 @@ export default function ProPage() {
             <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
               <PlanCta
                 plan="pro"
-                label="Démarrer avec Pro"
+                label={PRO.cta}
                 link={WHATSAPP_LINK_PRO}
                 location="pro_page"
               />
@@ -176,7 +201,7 @@ export default function ProPage() {
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <PlanCta
               plan="pro"
-              label="Démarrer avec Pro"
+              label={PRO.cta}
               link={WHATSAPP_LINK_PRO}
               location="pro_page_exemples"
             />

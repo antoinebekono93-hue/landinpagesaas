@@ -3,12 +3,19 @@ import Link from "next/link";
 import { PageShell } from "@/components/PageShell";
 import { PlanCta } from "@/components/PlanCta";
 import { IconCheck, IconRocket, IconUsers } from "@/components/icons";
-import { PLAN_STARTER, WHATSAPP_LINK_STARTER } from "@/lib/constants";
+import { STARTER } from "@/lib/business-pricing";
+import {
+  monthlyPrice,
+  priceLabel,
+  regularStartMonth,
+  yearlySavings,
+} from "@/lib/business-pricing";
+import { WHATSAPP_LINK_STARTER } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "MERCO Starter – Lancez 2 SaaS à 5 000 FCFA/mois",
+  title: "MERCO Starter – 2 SaaS dès 9 $/mois",
   description:
-    "Lancez jusqu'à 2 SaaS actifs pour 5 000 FCFA/mois. MERCO s'occupe de la mise en ligne, de l'hébergement selon le plan et de la maintenance technique de base.",
+    "Lancez jusqu'à 2 SaaS actifs à 9 $/mois pendant vos 12 premiers mois, puis 45 $/mois. MERCO s'occupe de la mise en ligne, de l'hébergement selon le plan et de la maintenance technique de base.",
   alternates: {
     canonical: "/creer-saas/starter",
   },
@@ -17,9 +24,9 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     url: "/creer-saas/starter",
     siteName: "MERCO",
-    title: "MERCO Starter – Lancez 2 SaaS à 5 000 FCFA/mois",
+    title: "MERCO Starter – 2 SaaS dès 9 $/mois",
     description:
-      "Lancez jusqu'à 2 SaaS actifs pour 5 000 FCFA/mois. MERCO s'occupe de la mise en ligne et de l'hébergement selon votre plan.",
+      "Lancez jusqu'à 2 SaaS actifs à 9 $/mois pendant vos 12 premiers mois, puis 45 $/mois. MERCO s'occupe de la mise en ligne et de l'hébergement selon votre plan.",
   },
 };
 
@@ -59,25 +66,45 @@ export default function StarterPage() {
       <section className="container-page py-10 sm:py-14">
         <div className="mx-auto max-w-2xl text-center">
           <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Lancez vos 2 premiers SaaS
+            Lancez vos 2 premiers SaaS pour {monthlyPrice(STARTER.introductoryMonthlyPrice)}
           </h1>
           <p className="mx-auto mt-4 max-w-xl leading-relaxed text-muted">
-            Idée simple, lancement simple. Choisissez 2 solutions et laissez
-            MERCO gérer la partie technique prévue par votre abonnement.
+            Tarif de lancement pendant vos 12 premiers mois. Puis{" "}
+            {monthlyPrice(STARTER.regularMonthlyPrice)}. Choisissez 2 solutions
+            et laissez MERCO gérer la partie technique prévue par votre
+            abonnement.
           </p>
         </div>
 
         <div className="mx-auto mt-10 max-w-xl">
           <article className="card p-7 text-center sm:p-8">
-            <span className="inline-block rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-accent">
-              {PLAN_STARTER.name}
-            </span>
-            <p className="mt-5 text-4xl font-bold tracking-tight text-white sm:text-5xl">
-              5 000 FCFA
-              <span className="text-lg font-semibold text-muted"> /mois</span>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              <span className="inline-block rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-accent">
+                {STARTER.name}
+              </span>
+              <span className="rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-accent">
+                {STARTER.launchBadge}
+              </span>
+            </div>
+
+            <p className="mt-5 text-sm font-semibold text-muted line-through">
+              {monthlyPrice(STARTER.regularMonthlyPrice)}
+            </p>
+            <p className="mt-1 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+              {STARTER.introductoryMonthlyPrice} $
+              <span className="text-lg font-semibold text-muted">/mois</span>
+            </p>
+            <p className="mt-1.5 text-sm font-semibold text-saas">
+              pendant vos {STARTER.introductoryMonths} premiers mois
+            </p>
+            <p className="mt-1 text-sm text-muted">
+              {`À partir du ${regularStartMonth(STARTER)}e mois : ${monthlyPrice(STARTER.regularMonthlyPrice)}`}
             </p>
             <p className="mt-2 text-sm font-medium text-saas">
-              Jusqu&apos;à 2 SaaS actifs
+              Jusqu&apos;à {STARTER.saasLimit} SaaS actifs
+            </p>
+            <p className="mt-4 inline-flex w-fit items-center gap-2 rounded-full border border-accent/20 bg-accent/10 px-4 py-1.5 text-sm font-semibold text-accent">
+              Économisez {priceLabel(yearlySavings(STARTER))} la première année
             </p>
 
             <ul className="mx-auto mt-6 max-w-sm space-y-2.5 text-left">
@@ -99,7 +126,7 @@ export default function StarterPage() {
             <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
               <PlanCta
                 plan="starter"
-                label="Démarrer avec Starter"
+                label={STARTER.cta}
                 link={WHATSAPP_LINK_STARTER}
                 location="starter_page"
               />
@@ -157,7 +184,7 @@ export default function StarterPage() {
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <PlanCta
               plan="starter"
-              label="Démarrer avec Starter"
+              label={STARTER.cta}
               link={WHATSAPP_LINK_STARTER}
               location="starter_page_steps"
             />

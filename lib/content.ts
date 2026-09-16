@@ -178,7 +178,19 @@ export const businessFaqs = [
   },
   {
     q: "Quelle différence entre Starter et Pro ?",
-    a: "Starter : jusqu'à 2 SaaS actifs pour 5 000 FCFA/mois. Pro : jusqu'à 5 SaaS actifs pour 10 000 FCFA/mois. Les services inclus (hébergement selon le plan, SSL, maintenance technique de base, support, orientation) sont les mêmes, avec des limites différentes selon le plan.",
+    a: "Starter : jusqu'à 2 SaaS actifs à 9 $/mois pendant vos 12 premiers mois, puis 45 $/mois. Pro : jusqu'à 5 SaaS actifs à 18 $/mois pendant vos 12 premiers mois, puis 65 $/mois. Les services inclus (hébergement selon le plan, SSL, maintenance technique de base, support, orientation) sont les mêmes, avec des limites différentes selon le plan.",
+  },
+  {
+    q: "Le prix de 9 $ ou 18 $ est-il permanent ?",
+    a: "Non. Il s'agit du tarif de lancement appliqué pendant vos 12 premiers mois. À partir du 13e mois, Business Starter passe à 45 $/mois et Business Pro à 65 $/mois.",
+  },
+  {
+    q: "Quand le nouveau tarif commence-t-il ?",
+    a: "Le tarif normal commence à partir du 13e mois suivant l'activation de votre abonnement.",
+  },
+  {
+    q: "Puis-je résilier avant la fin de la première année ?",
+    a: "Les conditions de résiliation seront précisées lors de la souscription.",
   },
   {
     q: "Quelle différence entre MERCO Business et la bibliothèque MERCO ?",
