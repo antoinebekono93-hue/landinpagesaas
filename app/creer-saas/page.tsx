@@ -17,7 +17,6 @@ import { LibraryAlternative } from "@/components/LibraryAlternative";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { BusinessStickyCTA } from "@/components/BusinessStickyCTA";
-import { WHATSAPP_LINK_HOME } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "MERCO Business – Lancez votre propre SaaS dès 5 000 FCFA/mois",
@@ -36,13 +35,6 @@ export const metadata: Metadata = {
       "Choisissez 2 ou 5 solutions SaaS, MERCO s'occupe de la mise en ligne et de l'hébergement prévu par votre plan. Lancez votre activité SaaS plus simplement.",
   },
 };
-
-const footerLinks = [
-  { label: "Catalogue", href: "#catalogue" },
-  { label: "Tarifs", href: "#tarifs" },
-  { label: "FAQ", href: "#faq" },
-  { label: "WhatsApp", href: WHATSAPP_LINK_HOME, external: true },
-];
 
 export default function Page() {
   return (
@@ -65,11 +57,7 @@ export default function Page() {
         <LibraryAlternative />
         <FinalCTA />
       </main>
-      <Footer
-        tagline="Votre business SaaS clé en main"
-        replaceDefaults
-        links={footerLinks}
-      />
+      <Footer tagline="Votre business SaaS clé en main" />
       <BusinessStickyCTA />
     </div>
   );

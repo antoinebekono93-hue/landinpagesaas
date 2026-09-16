@@ -17,6 +17,10 @@ export const WHATSAPP_MESSAGE_LIBRARY =
   "Bonjour MERCO 👋 Je veux activer mon accès à vie à la bibliothèque MERCO (10 000 FCFA). Envoyez-moi les instructions.";
 export const WHATSAPP_LINK_LIBRARY = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE_LIBRARY)}`;
 
+export const WHATSAPP_MESSAGE_LIBRARY_DISCOVER =
+  "Bonjour MERCO 👋 Je souhaite découvrir l'offre bibliothèque à vie à 10 000 FCFA.";
+export const WHATSAPP_LINK_LIBRARY_DISCOVER = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE_LIBRARY_DISCOVER)}`;
+
 export const WHATSAPP_MESSAGE_DEMO =
   "Bonjour MERCO 👋 Je souhaite voir une démonstration des SaaS disponibles avant de choisir mon plan.";
 export const WHATSAPP_LINK_DEMO = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE_DEMO)}`;
@@ -44,6 +48,7 @@ export const EVENT_SAAS_SELECT = "saas_select";
 export const EVENT_CATALOG_CATEGORY = "catalog_category_click";
 export const EVENT_LIBRARY_ALT = "library_alternative_click";
 export const EVENT_PLAN_VIEW = "business_plan_view";
+export const EVENT_NAVIGATION = "navigation_click";
 
 /* ── Plans ── */
 export const PLAN_STARTER = {
@@ -94,3 +99,5 @@ export const LIBRARY_PRICE_DETAIL = "accès à vie";
 
 export const DEMO_URL = "";
 export const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? "";
+export const GOOGLE_ADS_ID =
+  process.env.NEXT_PUBLIC_GOOGLE_ADS_ID ?? "AW-18256411556";

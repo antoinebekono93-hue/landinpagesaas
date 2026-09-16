@@ -129,6 +129,10 @@ export const homeIntents: HomeIntent[] = [
 
 export const businessFaqs = [
   {
+    q: "Qu'est-ce que MERCO Business ?",
+    a: "MERCO Business est un abonnement mensuel qui vous permet de lancer des solutions SaaS choisies dans le catalogue vérifié MERCO. MERCO assure la mise en ligne, l'hébergement selon les limites du plan et la maintenance technique de base, pendant que vous travaillez votre offre et vos clients.",
+  },
+  {
     q: "Dois-je savoir coder ?",
     a: "Non. Avec l'offre Business, MERCO s'occupe de la mise en ligne et de la partie technique prévue dans votre abonnement. Vous choisissez vos solutions et vous vous concentrez sur vos clients.",
   },
@@ -161,16 +165,36 @@ export const businessFaqs = [
     a: "Oui. Vous définissez votre propre offre commerciale et cherchez vos propres clients, selon les conditions d'utilisation de chaque solution.",
   },
   {
-    q: "Qui s'occupe de la maintenance ?",
-    a: "La maintenance technique de base est incluse dans les plans Business. Les interventions plus profondes ou spécifiques peuvent faire l'objet d'un échange préalable avec MERCO.",
+    q: "Puis-je vendre mon service à mes clients ?",
+    a: "Oui. Vous commercialisez votre propre service auprès de vos clients, selon les conditions d'utilisation de chaque solution. Les droits exacts dépendent de la licence de chaque SaaS.",
   },
   {
     q: "Puis-je revendre le code source ?",
     a: "Non. MERCO sélectionne pour l'offre Business uniquement des solutions dont l'utilisation hébergée a été vérifiée pour le modèle proposé. Les droits exacts peuvent varier selon chaque solution : vous achetez principalement un accès hébergé et le service MERCO.",
   },
   {
-    q: "Quelle différence entre MERCO Business et l'accès bibliothèque à vie ?",
-    a: "Business est un abonnement mensuel où MERCO met en ligne et maintient vos SaaS (2 avec Starter, 5 avec Pro). L'accès bibliothèque à vie est une offre secondaire pour les développeurs qui préfèrent gérer eux-mêmes leurs projets.",
+    q: "Qui assure la maintenance ?",
+    a: "La maintenance technique de base est incluse dans les plans Business. Les interventions plus profondes ou spécifiques peuvent faire l'objet d'un échange préalable avec MERCO.",
+  },
+  {
+    q: "Quelle différence entre Starter et Pro ?",
+    a: "Starter : jusqu'à 2 SaaS actifs pour 5 000 FCFA/mois. Pro : jusqu'à 5 SaaS actifs pour 10 000 FCFA/mois. Les services inclus (hébergement selon le plan, SSL, maintenance technique de base, support, orientation) sont les mêmes, avec des limites différentes selon le plan.",
+  },
+  {
+    q: "Quelle différence entre MERCO Business et la bibliothèque MERCO ?",
+    a: "Business est un abonnement mensuel où MERCO met en ligne et maintient vos SaaS (2 avec Starter, 5 avec Pro). L'accès bibliothèque à vie est une offre secondaire, à paiement unique, pour les développeurs qui préfèrent gérer eux-mêmes leurs projets.",
+  },
+  {
+    q: "Comment fonctionne le paiement ?",
+    a: "Cette condition dépend des modalités MERCO applicables au moment de l'activation. Les moyens de paiement et points de paiement sont confirmés par MERCO avant votre souscription.",
+  },
+  {
+    q: "Comment demander une démonstration ?",
+    a: "Cliquez sur « Demander une démonstration » pour ouvrir une discussion WhatsApp avec un message pré-rempli. Aucun paiement n'est nécessaire pour demander la démonstration.",
+  },
+  {
+    q: "Qui est MERCO ?",
+    a: "MERCO est une équipe de 12 développeurs qui sélectionne, configure et exploite des solutions numériques afin d'aider entrepreneurs, entreprises et professionnels à lancer plus rapidement leurs projets. MERCO ne prétend pas être l'auteur de tous les logiciels proposés ; chaque solution est exploitée selon ses conditions et licences applicables.",
   },
   {
     q: "MERCO garantit-il des revenus ?",
