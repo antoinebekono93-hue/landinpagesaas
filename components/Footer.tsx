@@ -70,6 +70,10 @@ export function Footer({ links = [], tagline, replaceDefaults }: FooterProps) {
             </li>
           </ul>
         </div>
+
+        <p className="mt-6 text-center text-xs font-medium text-muted/70">
+          © 2026 MERCO Business
+        </p>
       </div>
     </footer>
   );
