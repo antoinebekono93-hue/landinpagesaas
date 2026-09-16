@@ -7,7 +7,19 @@ import { getWhatsAppHref } from "@/lib/utm";
 import { LibraryMockup } from "./LibraryMockup";
 import { IconPlay } from "./icons";
 
-export function DemoVideo() {
+interface DemoVideoProps {
+  link?: string;
+  event?: string;
+  location?: string;
+  ctaLabel?: string;
+}
+
+export function DemoVideo({
+  link = WHATSAPP_LINK,
+  event = "whatsapp_click",
+  location = "demo",
+  ctaLabel,
+}: DemoVideoProps) {
   const [playing, setPlaying] = useState(false);
 
   if (DEMO_URL && playing) {
@@ -28,10 +40,12 @@ export function DemoVideo() {
       setPlaying(true);
       return;
     }
-    trackWhatsAppClick("demo");
-    const href = getWhatsAppHref(WHATSAPP_LINK);
+    trackWhatsAppClick(location, event);
+    const href = getWhatsAppHref(link);
     window.open(href, "_blank", "noopener,noreferrer");
   }
+
+  const overlayLabel = ctaLabel ?? (DEMO_URL ? "Voir la démo" : "Voir la démo sur WhatsApp");
 
   return (
     <button
@@ -40,7 +54,9 @@ export function DemoVideo() {
       aria-label={
         DEMO_URL
           ? "Voir la démo MERCO"
-          : "Voir la démo sur WhatsApp (nouvel onglet)"
+          : ctaLabel
+            ? `${ctaLabel} sur WhatsApp (nouvel onglet)`
+            : "Voir la démo sur WhatsApp (nouvel onglet)"
       }
       className="relative block w-full cursor-pointer overflow-hidden rounded-2xl border border-line bg-surface text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
     >
@@ -50,7 +66,7 @@ export function DemoVideo() {
           <IconPlay className="h-6 w-6 pl-0.5" />
         </span>
         <span className="rounded-full border border-line-soft bg-background/90 px-4 py-1.5 text-sm font-semibold text-white">
-          {DEMO_URL ? "Voir la démo" : "Voir la démo sur WhatsApp"}
+          {overlayLabel}
         </span>
       </span>
     </button>

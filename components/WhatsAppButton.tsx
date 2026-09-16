@@ -9,6 +9,7 @@ interface WhatsAppButtonProps {
   children: React.ReactNode;
   location: string;
   link?: string;
+  event?: string;
   variant?: "primary" | "outline";
   size?: "md" | "lg";
   className?: string;
@@ -20,6 +21,7 @@ export function WhatsAppButton({
   children,
   location,
   link = WHATSAPP_LINK,
+  event: eventName = "whatsapp_click",
   variant = "primary",
   size = "md",
   className = "",
@@ -45,7 +47,7 @@ export function WhatsAppButton({
     typeof children === "string" ? children.trim() : "Découvrir MERCO";
 
   function handleClick(event: React.MouseEvent<HTMLAnchorElement>) {
-    trackWhatsAppClick(location);
+    trackWhatsAppClick(location, eventName);
     const href = getWhatsAppHref(link);
     if (href !== link) {
       event.preventDefault();

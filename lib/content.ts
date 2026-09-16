@@ -1,33 +1,38 @@
 export const WHATSAPP_LOCATIONS = [
-  "hero",
   "header",
+  "hero_catalog",
+  "hero_whatsapp",
+  "steps",
+  "catalog_category",
+  "catalog_card",
+  "catalog_empty",
   "demo",
-  "categories",
-  "profiles",
-  "problem_solution",
+  "comparison",
+  "business_model",
+  "api_costs",
+  "hosting",
   "trust",
-  "pricing",
+  "pricing_starter",
+  "pricing_pro",
+  "pricing_info",
+  "library_alternative",
   "final_cta",
   "sticky_mobile",
-  "intent_saas",
-  "intent_application",
-  "intent_code_source",
-  "intent_business",
-  "library",
-  "transformation",
-  "how",
+  "home_hero_demo",
+  "home_intent",
 ] as const;
 
 export type WhatsAppLocation = (typeof WHATSAPP_LOCATIONS)[number];
 
 export const heroContent = {
   badge: "Pour entrepreneurs, développeurs & créateurs de SaaS",
-  title: "Vous voulez lancer un SaaS sans tout développer de zéro ?",
+  title: "Ne repartez pas de zéro pour lancer votre SaaS.",
   subtitle:
-    "MERCO vous donne accès à vie à une bibliothèque d'applications, scripts et solutions numériques pouvant accélérer votre prochain projet.",
+    "Découvrez des applications, scripts et bases numériques pouvant accélérer votre projet. MERCO vous aide à identifier la solution adaptée.",
   priceLine: "Paiement unique • Accès à vie",
-  cta: "Parler à MERCO sur WhatsApp",
-  ctaNote: "Vous pouvez voir la démonstration avant tout paiement.",
+  ctaPrimary: "Voir la démo avant de payer",
+  ctaSecondary: "Activer mon accès — 10 000 FCFA",
+  ctaNote: "Vous voyez d'abord. Vous décidez ensuite.",
   reassurance: "Pas d'abonnement mensuel.",
   categories: [
     "SaaS",
@@ -122,30 +127,131 @@ export const homeIntents: HomeIntent[] = [
   },
 ];
 
-export const landingFaqs = [
+export const businessFaqs = [
   {
-    q: "C'est vraiment 10 000 FCFA à vie ?",
-    a: "Oui. Le tarif actuel de MERCO est un paiement unique de 10 000 FCFA pour un accès à vie, sans abonnement mensuel.",
+    q: "Dois-je savoir coder ?",
+    a: "Non. Avec l'offre Business, MERCO s'occupe de la mise en ligne et de la partie technique prévue dans votre abonnement. Vous choisissez vos solutions et vous vous concentrez sur vos clients.",
   },
   {
-    q: "Dois-je payer chaque application ?",
-    a: "Non. Les 10 000 FCFA correspondent à l'accès MERCO et non à l'achat d'une seule application.",
+    q: "Que signifie 2 SaaS actifs ?",
+    a: "Le plan Starter vous permet d'avoir jusqu'à 2 solutions SaaS actives en même temps dans votre hébergement, selon les limites du plan.",
   },
   {
-    q: "Puis-je voir avant de payer ?",
-    a: "Oui. Vous pouvez demander une démonstration sur WhatsApp avant de décider.",
+    q: "Que signifie 5 SaaS actifs ?",
+    a: "Le plan Pro vous permet d'avoir jusqu'à 5 solutions SaaS actives en même temps, pour construire un portefeuille de plusieurs services.",
   },
   {
-    q: "Je ne suis pas développeur. Est-ce pour moi ?",
-    a: "Oui. MERCO peut également orienter les entrepreneurs, entreprises et particuliers vers des solutions adaptées à leur projet.",
+    q: "L'hébergement est-il inclus ?",
+    a: "L'hébergement est inclus selon les ressources et limites du plan. Les détails précis (CPU, RAM, stockage, trafic) seront communiqués selon l'offre en vigueur.",
   },
   {
-    q: "Puis-je revendre toutes les applications ?",
-    a: "Non. Les droits dépendent de la licence et des conditions propres à chaque ressource. MERCO ne garantit pas un droit universel de revente ou de redistribution.",
+    q: "Puis-je utiliser mon propre domaine ?",
+    a: "Selon la solution et les conditions du plan. La question du domaine doit être confirmée avec MERCO avant ou pendant la mise en ligne de votre SaaS.",
   },
   {
-    q: "Est-ce que MERCO garantit que mon SaaS sera rentable ?",
-    a: "Non. MERCO fournit des ressources, de la veille et de l'orientation. La réussite d'un projet dépend du marché, de l'exécution, du marketing et de nombreux autres facteurs.",
+    q: "Puis-je changer de SaaS plus tard ?",
+    a: "La possibilité de remplacer un SaaS dépend des conditions MERCO du plan. Contactez-nous sur WhatsApp pour vérifier la faisabilité selon votre situation.",
+  },
+  {
+    q: "Les API externes sont-elles comprises ?",
+    a: "Non, pas toujours. Les API tierces telles que IA, WhatsApp, SMS, e-mail, téléphonie ou paiement ne sont pas nécessairement incluses. Selon la solution, vous pouvez connecter vos propres clés API ou payer votre consommation.",
+  },
+  {
+    q: "Puis-je fixer mes propres prix à mes clients ?",
+    a: "Oui. Vous définissez votre propre offre commerciale et cherchez vos propres clients, selon les conditions d'utilisation de chaque solution.",
+  },
+  {
+    q: "Qui s'occupe de la maintenance ?",
+    a: "La maintenance technique de base est incluse dans les plans Business. Les interventions plus profondes ou spécifiques peuvent faire l'objet d'un échange préalable avec MERCO.",
+  },
+  {
+    q: "Puis-je revendre le code source ?",
+    a: "Non. MERCO sélectionne pour l'offre Business uniquement des solutions dont l'utilisation hébergée a été vérifiée pour le modèle proposé. Les droits exacts peuvent varier selon chaque solution : vous achetez principalement un accès hébergé et le service MERCO.",
+  },
+  {
+    q: "Quelle différence entre MERCO Business et l'accès bibliothèque à vie ?",
+    a: "Business est un abonnement mensuel où MERCO met en ligne et maintient vos SaaS (2 avec Starter, 5 avec Pro). L'accès bibliothèque à vie est une offre secondaire pour les développeurs qui préfèrent gérer eux-mêmes leurs projets.",
+  },
+  {
+    q: "MERCO garantit-il des revenus ?",
+    a: "Non. MERCO ne garantit aucun revenu ni nombre de clients. Votre revenu dépend de votre offre, de vos clients et de votre marché.",
+  },
+];
+
+export type BusinessCategoryId =
+  | "crm"
+  | "reservation"
+  | "ecommerce"
+  | "education"
+  | "rh"
+  | "sites"
+  | "logistique"
+  | "whatsapp";
+
+export interface BusinessCategory {
+  id: BusinessCategoryId;
+  title: string;
+  description: string;
+  useCases: string[];
+  icon: string;
+}
+
+export const businessCatalogs: BusinessCategory[] = [
+  {
+    id: "crm",
+    title: "CRM & ventes",
+    description: "Proposez un logiciel de gestion clients aux PME, agences ou commerciaux.",
+    useCases: ["Suivi clients", "Relances automatiques", "Tableaux de bord ventes"],
+    icon: "users",
+  },
+  {
+    id: "reservation",
+    title: "Réservation",
+    description: "Lancez un service de réservation pour salons, consultants, garages, coachs ou services.",
+    useCases: ["Prise de rendez-vous", "Agenda en ligne", "Confirmation client"],
+    icon: "calendar",
+  },
+  {
+    id: "ecommerce",
+    title: "E-commerce",
+    description: "Proposez une plateforme permettant aux commerçants de créer ou gérer leur activité en ligne.",
+    useCases: ["Boutique en ligne", "Catalogue produits", "Gestion des commandes"],
+    icon: "cart",
+  },
+  {
+    id: "education",
+    title: "Éducation",
+    description: "Lancez une solution destinée aux écoles, centres de formation ou établissements.",
+    useCases: ["Gestion des élèves", "Cours en ligne", "Suivi des paiements"],
+    icon: "graduation",
+  },
+  {
+    id: "rh",
+    title: "RH & gestion",
+    description: "Proposez des outils RH, paie, présence ou gestion interne aux entreprises.",
+    useCases: ["Gestion du personnel", "Pointage", "Suivi des congés"],
+    icon: "building",
+  },
+  {
+    id: "sites",
+    title: "Création de sites",
+    description: "Lancez votre propre service de création de sites ou pages professionnelles.",
+    useCases: ["Sites vitrines", "Pages professionnelles", "Sites pour commerces"],
+    icon: "code",
+  },
+  {
+    id: "logistique",
+    title: "Logistique",
+    description: "Proposez un logiciel de gestion pour sociétés de livraison et transport.",
+    useCases: ["Suivi des livraisons", "Gestion des coursiers", "Statistiques"],
+    icon: "truck",
+  },
+  {
+    id: "whatsapp",
+    title: "WhatsApp & relation client",
+    description: "Proposez des outils de support, CRM et automatisation conversationnelle.",
+    useCases: ["Support client", "Réponses automatiques", "Suivi des conversations"],
+    icon: "chat",
   },
 ];
 

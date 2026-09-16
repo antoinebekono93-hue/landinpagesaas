@@ -2,19 +2,21 @@ import { Logo } from "./Logo";
 
 interface FooterProps {
   links?: { label: string; href: string; external?: boolean }[];
+  tagline?: string;
+  /** Si vrai, les liens par défaut (Solutions / FAQ) ne sont pas ajoutés. */
+  replaceDefaults?: boolean;
 }
 
-const defaultLinks = {
-  solutions: { href: "#bibliotheque" },
-  faq: { href: "#faq" },
-};
+const defaultLinks: { label: string; href: string; external?: boolean }[] = [
+  { label: "Solutions", href: "#bibliotheque" },
+  { label: "FAQ", href: "#faq" },
+];
 
-export function Footer({ links = [] }: FooterProps) {
-  const resolvedLinks = [
-    { label: "Solutions", href: defaultLinks.solutions.href },
-    { label: "FAQ", href: defaultLinks.faq.href },
-    ...links,
-  ].filter(
+export function Footer({ links = [], tagline, replaceDefaults }: FooterProps) {
+  const resolvedLinks = replaceDefaults
+    ? [...links]
+    : [...defaultLinks, ...links];
+  const finalLinks = resolvedLinks.filter(
     (link, index, all) =>
       all.findIndex((item) => item.label === link.label) === index
   );
@@ -25,12 +27,12 @@ export function Footer({ links = [] }: FooterProps) {
         <div className="flex flex-col items-center gap-5 text-center">
           <Logo />
           <p className="text-sm text-muted">
-            Applications • Scripts • SaaS • Opportunités digitales
+            {tagline ?? "Applications • Scripts • SaaS • Opportunités digitales"}
           </p>
-          {resolvedLinks.length > 0 ? (
+          {finalLinks.length > 0 ? (
             <nav aria-label="Liens du pied de page">
               <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm">
-                {resolvedLinks.map((link) =>
+                {finalLinks.map((link) =>
                   link.external ? (
                     <li key={link.label}>
                       <a

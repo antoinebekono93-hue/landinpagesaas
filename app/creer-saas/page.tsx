@@ -1,21 +1,28 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
-import { Demo } from "@/components/Demo";
-import { ProblemSolution } from "@/components/ProblemSolution";
-import { ProjectCategories } from "@/components/ProjectCategories";
-import { Profiles } from "@/components/Profiles";
-import { Trust } from "@/components/Trust";
-import { Pricing } from "@/components/Pricing";
+import { ThreeSteps } from "@/components/ThreeSteps";
+import { CatalogSection } from "@/components/CatalogSection";
+import { PossibilitiesSection } from "@/components/PossibilitiesSection";
+import { DemoProof } from "@/components/DemoProof";
+import { ForWhom } from "@/components/ForWhom";
+import { ComparisonTable } from "@/components/ComparisonTable";
+import { BusinessPricing } from "@/components/BusinessPricing";
+import { BusinessModel } from "@/components/BusinessModel";
+import { ApiCosts } from "@/components/ApiCosts";
+import { HostingTransparency } from "@/components/HostingTransparency";
+import { TrustStrip } from "@/components/TrustStrip";
 import { FAQ } from "@/components/FAQ";
+import { LibraryAlternative } from "@/components/LibraryAlternative";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
-import { StickyCTA } from "@/components/StickyCTA";
+import { BusinessStickyCTA } from "@/components/BusinessStickyCTA";
+import { WHATSAPP_LINK_HOME } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "MERCO – Lancez votre SaaS plus rapidement",
+  title: "MERCO Business – Lancez votre propre SaaS dès 5 000 FCFA/mois",
   description:
-    "Découvrez des applications, scripts et solutions SaaS avec MERCO. Accès à vie à 10 000 FCFA et démonstration disponible.",
+    "Choisissez 2 ou 5 solutions SaaS, MERCO s'occupe de la mise en ligne et de l'hébergement prévu par votre plan. Lancez votre activité SaaS plus simplement.",
   alternates: {
     canonical: "/creer-saas",
   },
@@ -24,11 +31,18 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     url: "/creer-saas",
     siteName: "MERCO",
-    title: "MERCO – Lancez votre SaaS plus rapidement",
+    title: "MERCO Business – Lancez votre propre SaaS dès 5 000 FCFA/mois",
     description:
-      "Découvrez des applications, scripts et solutions SaaS avec MERCO. Accès à vie à 10 000 FCFA et démonstration disponible.",
+      "Choisissez 2 ou 5 solutions SaaS, MERCO s'occupe de la mise en ligne et de l'hébergement prévu par votre plan. Lancez votre activité SaaS plus simplement.",
   },
 };
+
+const footerLinks = [
+  { label: "Catalogue", href: "#catalogue" },
+  { label: "Tarifs", href: "#tarifs" },
+  { label: "FAQ", href: "#faq" },
+  { label: "WhatsApp", href: WHATSAPP_LINK_HOME, external: true },
+];
 
 export default function Page() {
   return (
@@ -36,17 +50,27 @@ export default function Page() {
       <Header />
       <main>
         <Hero />
-        <Demo />
-        <ProblemSolution />
-        <ProjectCategories />
-        <Profiles />
-        <Trust />
-        <Pricing />
+        <ThreeSteps />
+        <CatalogSection />
+        <PossibilitiesSection />
+        <DemoProof />
+        <ForWhom />
+        <ComparisonTable />
+        <BusinessPricing />
+        <BusinessModel />
+        <ApiCosts />
+        <HostingTransparency />
+        <TrustStrip />
         <FAQ />
+        <LibraryAlternative />
         <FinalCTA />
       </main>
-      <Footer />
-      <StickyCTA />
+      <Footer
+        tagline="Votre business SaaS clé en main"
+        replaceDefaults
+        links={footerLinks}
+      />
+      <BusinessStickyCTA />
     </div>
   );
 }

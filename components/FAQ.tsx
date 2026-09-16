@@ -1,10 +1,10 @@
-import { landingFaqs } from "@/lib/content";
+import { businessFaqs } from "@/lib/content";
 
 interface FAQProps {
   items?: { q: string; a: string }[];
 }
 
-export function FAQ({ items = landingFaqs }: FAQProps) {
+export function FAQ({ items = businessFaqs }: FAQProps) {
   return (
     <section id="faq" className="section-pad border-t border-line bg-surface/[0.35]">
       <div className="container-page">
