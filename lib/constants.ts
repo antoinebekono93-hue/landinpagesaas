@@ -50,6 +50,16 @@ export const EVENT_LIBRARY_ALT = "library_alternative_click";
 export const EVENT_PLAN_VIEW = "business_plan_view";
 export const EVENT_NAVIGATION = "navigation_click";
 
+/* ── Events catalogue de recherche / automatisé ── */
+export const EVENT_CATALOG_VIEW = "catalog_view";
+export const EVENT_CATALOG_SEARCH = "catalog_search";
+export const EVENT_CATALOG_FILTER = "catalog_filter";
+export const EVENT_CATALOG_PRODUCT_VIEW = "catalog_product_view";
+export const EVENT_ENVATO_SOURCE_CLICK = "envato_source_click";
+export const EVENT_OFFICIAL_DEMO_CLICK = "official_demo_click";
+export const EVENT_DEMO_CREDENTIAL_COPY = "demo_credential_copy";
+export const EVENT_VERIFICATION_REQUEST = "verification_request";
+
 /* ── Plans (single source of truth in lib/business-pricing.ts) ── */
 export { PRO as PLAN_PRO, STARTER as PLAN_STARTER } from "./business-pricing";
 

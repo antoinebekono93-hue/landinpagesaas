@@ -112,3 +112,81 @@ Textes des sections : fichiers dans `components/`
 - `npm run build` doit réussir.
 - Tous les boutons WhatsApp utilisent `WHATSAPP_LINK` (voir `components/WhatsAppButton.tsx`).
 - Aucune redirection automatique vers `wa.me` (aucune logique `redirect()` dans le code).
+
+## Catalogue MERCO automatisé (Envato → Nhost)
+
+### Architecture
+
+Le catalogue public `/creer-saas/catalogue` affiche des informations issue
+d'**Envato Market**, synchronisées toutes les 6 heures dans **Nhost PostgreSQL**
+(via un cron Vercel et des migrations SQL).
+
+| Couche | Technologie |
+| --- | --- |
+| Données source | Envato Market API (`ENVATO_API_TOKEN`) |
+| Base de données | Nhost PostgreSQL (GraphQL / Hasura) |
+| Auth admin | Nhost Auth (rôle `admin`) |
+| Cron / sync | Vercel (`CRON_SECRET` ou header `x-vercel-cron`) |
+| Frontend | Next.js 15 (App Router) déployé sur Vercel |
+
+**Interdits** : scraping HTML / Playwright / Puppeteer, Supabase, Neon,
+SQLite, Vercel Postgres, Codelist.
+
+### Variables d'environnement requises
+
+| Nom | Côté | Description |
+| --- | --- | --- |
+| `NEXT_PUBLIC_NHOST_SUBDOMAIN` | client | Sous-domaine Nhost |
+| `NEXT_PUBLIC_NHOST_REGION` | client | Région Nhost |
+| `NHOST_ADMIN_SECRET` | serveur | Secret admin Hasura |
+| `ENVATO_API_TOKEN` | serveur | Token Envato (Bearer) |
+| `CATALOG_SYNC_SECRET` | serveur | Secret optionnel pour déclencher la sync manuelle |
+| `CRON_SECRET` | serveur | Secret Vercel Cron |
+
+Aucun de ces secrets ne doit être préfixé `NEXT_PUBLIC_` ni importé
+côté client. Vérification : aucun secret ne doit apparaître dans le
+bundle (`lib/envato/*`, `lib/nhost/server.ts`, `lib/catalog/sync-envato.ts`,
+`lib/catalog/admin.ts` sont `server-only`).
+
+### Migrations et permissions
+
+Appliquer dans Nhost :
+
+1. `nhost/migrations/20260916000000_catalog_core/up.sql`
+2. Permissions Hasura documentées dans `nhost/permissions.md`
+
+### Première synchronisation
+
+```bash
+# Avec CRON_SECRET :
+curl -H "Authorization: Bearer <CRON_SECRET>" https://<projet>.vercel.app/api/catalog/sync
+
+# Ou avec CATALOG_SYNC_SECRET :
+curl -H "Authorization: Bearer <CATALOG_SYNC_SECRET>" https://<projet>.vercel.app/api/catalog/sync
+```
+
+La première sync crée les produits. Les champs `license_verified`,
+`technically_verified`, `commercially_available`, `status` et
+`merco_notes` ne sont jamais modifiés par la sync.
+
+### Admin
+
+1. Créer un utilisateur Nhost avec le rôle `admin`.
+2. Se connecter sur `/admin/login`.
+3. `/admin/catalogue` : tableau de bord, liste des produits, synchronisation
+   manuelle.
+4. `/admin/catalogue/[slug]` : édition d'un produit (catégorie, notes,
+   flags, credentials de démo).
+
+### Cron Vercel
+
+`vercel.json` déclenche la route `GET /api/catalog/sync` toutes les 6 heures.
+Le plan Vercel doit autoriser ce nombre d'exécutions. En cas de quota dépassé,
+retomber sur une synchronisation manuelle via `/admin/catalogue` ou une
+planification externe (GitHub Actions…).
+
+### Attribution Envato
+
+La mention « Powered by Envato API » et les textes d'attribution figurent
+dans `components/catalog/EnvatoAttribution.tsx`. Utiliser un logo officiel
+dès que disponible (`docs/envato-attribution.md`).

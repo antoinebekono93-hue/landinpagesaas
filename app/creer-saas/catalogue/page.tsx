@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
 import { PageShell } from "@/components/PageShell";
-import { CatalogContent } from "@/components/CatalogContent";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
-import { businessCatalogs } from "@/lib/content";
 import { WHATSAPP_LINK_HOME } from "@/lib/constants";
-import { getVisibleCatalog } from "@/lib/saas-catalog";
+import { EnvatoAttribution } from "@/components/catalog/EnvatoAttribution";
+import { CatalogExplorer } from "@/components/catalog/CatalogExplorer";
+import {
+  getCatalogCategories,
+  loadCatalog,
+  toCardModel,
+} from "@/lib/catalog/source";
+import { isEnvatoDataFresh, lastSyncedLabel } from "@/lib/catalog/freshness";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Catalogue SaaS MERCO – Solutions prêtes à lancer",
@@ -30,7 +37,16 @@ const crumbs = [
   { label: "Catalogue", current: true },
 ];
 
-export default function CataloguePage() {
+const EXCLUDED_STATUSES = ["rejected", "archived"];
+
+export default async function CataloguePage() {
+  const { products, mode, lastSyncedAt } = await loadCatalog();
+  const cards = products
+    .filter((product) => !EXCLUDED_STATUSES.includes(product.status))
+    .map(toCardModel);
+  const categories = getCatalogCategories();
+  const fresh = mode === "nhost" && isEnvatoDataFresh(lastSyncedAt);
+
   return (
     <PageShell crumbs={crumbs} location="breadcrumbs_catalogue">
       <section className="container-page py-10 text-center sm:py-14">
@@ -38,16 +54,40 @@ export default function CataloguePage() {
           Quel SaaS voulez-vous lancer&nbsp;?
         </h1>
         <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-muted">
-          Explorez les catégories MERCO et choisissez les solutions qui
-          correspondent à votre futur business.
+          Explorez les catégories MERCO et les candidats détectés sur Envato
+          Market. Les solutions activées commercialement sont marquées
+          «&nbsp;Disponible avec MERCO&nbsp;».
         </p>
       </section>
 
-      <section className="container-page pb-14">
-        <CatalogContent
-          products={getVisibleCatalog()}
-          categories={businessCatalogs}
-        />
+      {mode === "static-fallback" ? (
+        <div className="container-page pb-2">
+          <div className="rounded-2xl border border-warn/40 bg-warn/10 px-4 py-4 text-sm leading-relaxed text-warn-soft">
+            Le catalogue automatique sera activé une fois Nhost et l&apos;API
+            Envato configurés. En attendant, voici les candidats détectés lors
+            de la recherche MERCO&nbsp;: ils sont à l&apos;étude et aucun n&apos;est
+            encore vendu avec un abonnement MERCO.
+          </div>
+        </div>
+      ) : null}
+
+      {mode === "nhost" && !fresh ? (
+        <div className="container-page pb-2">
+          <div className="rounded-2xl border border-warn/40 bg-warn/10 px-4 py-4 text-sm leading-relaxed text-warn-soft">
+            Données source en cours de mise à jour. Les informations affichées
+            restent celles de la dernière synchronisation Envato.
+          </div>
+        </div>
+      ) : null}
+
+      <section className="container-page pb-10" aria-label="Explorateur de catalogue">
+        <CatalogExplorer products={cards} categories={categories} />
+        {lastSyncedAt ? (
+          <p className="mt-6 text-center text-xs text-muted">
+            {lastSyncedLabel(lastSyncedAt)}
+          </p>
+        ) : null}
+        <EnvatoAttribution className="mx-auto mt-4 max-w-2xl text-center" />
       </section>
 
       <section className="border-t border-line">
