@@ -1,0 +1,26 @@
+feat: add automated Envato SaaS catalog with Nhost (MERCO catalogue)
+
+- Catalogue MERCO « créer-saas » automatisé interrogé via Envato Market API
+  (api.envato.com/v3/market), enrichi côté serveur et publié dans le catalogue
+  public /creer-saas/catalogue avec pages SSR par slug (canonical SEO).
+- Persistance et sync via Nhost (Hasura + Auth) : table catalog_products
+  (53 colonnes), logs des syncs, rôles/claims admin JWT vérifiés serveur seul.
+- Scoring 0-100 borné (lib/catalog/scoring.ts) + Top 5 par catégorie
+  (filtre catégorie AVANT tri score) + statut « research → noindex, follow »,
+  produits actifs/commerciaux indexables avec canonical.
+- Client Envato (lib/envato/*) : 429 hér-back « Retry-After » + backoff,
+  max 3 tentatives, pas de boucle ; 401/403/404/invalid-json → throw immédiat.
+- Sync Envato ne peut PAS écraser les vérifications MERCO manuelles
+  (license_verified / technically_verified / commercially_available /
+  merco_notes) — mises à jour uniquement sur statuts + timestamps.
+- Admin (/admin/login → /admin/catalogue) : session Nhost Auth (cookie),
+  rôle admin requis, données protégées côté serveur, aucune donnée interne
+  dans le HTML public.
+- Secrets serveur uniquement : ENVATO_API_TOKEN / NHOST_ADMIN_SECRET /
+  CRON_SECRET / CATALOG_SYNC_SECRET. .env.example = placeholders uniquement,
+  rien côté client (scan chunks .next : 0 occurrence).
+- Analytics (catalog_view/search/filter/product_view/envato_source_click/
+  official_demo_click/credential_copy/verification_request/saas_select)
+  non bloquants. SEO research→noindex / active→index. Mobile 375px OK.
+- Vercel cron 0 */6 * * * → GET /api/catalog/cron (secret) ; lock 409 ;
+  erreurs 4xx/5xx contrôlées (pas de crash serveur).
