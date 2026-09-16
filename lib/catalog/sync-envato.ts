@@ -603,7 +603,11 @@ async function runCategory(
     counters.queries += 1;
     let items: Awaited<ReturnType<typeof searchCatalogItems>>;
     try {
-      items = await searchCatalogItems(term, { limit: 100 });
+      items = await searchCatalogItems({
+        term,
+        site: "codecanyon.net",
+        pageSize: 100,
+      });
     } catch (error) {
       if (error instanceof EnvatoApiError && error.code === "rate-limited") {
         counters.rateLimited += 1;

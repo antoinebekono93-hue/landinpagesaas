@@ -11,6 +11,7 @@ import "server-only";
  */
 
 const ENVATO_API_BASE = "https://api.envato.com/v3/market";
+const ENVATO_DISCOVERY_BASE = "https://api.envato.com/v1/discovery";
 const MAX_ATTEMPTS = 3;
 const DEFAULT_TIMEOUT_MS = 10_000;
 const DEFAULT_RATE_LIMIT_BACKOFF_MS = 60_000;
@@ -75,7 +76,10 @@ async function attempt<T>(
   const timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    const response = await fetch(`${ENVATO_API_BASE}${path}`, {
+    const url = path.startsWith("http")
+      ? path
+      : `${ENVATO_API_BASE}${path}`;
+    const response = await fetch(url, {
       headers: {
         Authorization: `Bearer ${getToken()}`,
         Accept: "application/vnd.api+json",
@@ -243,15 +247,56 @@ export type EnvatoCatalogItem = EnvatoSearchItem & {
 
 /* ─────────────────────────── Endpoints ─────────────────────────── */
 
-/** Recherche officielle : `GET /v3/market/catalog/search?term=...` */
+const ENVATO_DISCOVERY_SEARCH_BASE =
+  "https://api.envato.com/v1/discovery/search/search/item";
+
+export type DiscoverySearchParams = {
+  term: string;
+  site?: string;
+  tags?: string;
+  category?: string;
+  ratingMin?: number;
+  priceMin?: number;
+  priceMax?: number;
+  date?: string;
+  dateUpdated?: string;
+  username?: string;
+  sortBy?: string;
+  sortDirection?: "asc" | "desc";
+  page?: number;
+  pageSize?: number;
+};
+
+/** Recherche officielle Envato (GET) :
+ * `GET {ENVATO_DISCOVERY_SEARCH_BASE}?term=...` (zéro POST, zéro body,
+ * zéro scraping). Retries bornés ≤3 + backoff 429 via `envatoRequest`. */
 export async function searchCatalogItems(
-  term: string,
-  options: { limit?: number; timeoutMs?: number } = {}
+  paramsOrTerm: string | DiscoverySearchParams,
+  options: { timeoutMs?: number } = {}
 ): Promise<EnvatoSearchItem[]> {
-  const params = new URLSearchParams({ term });
-  if (options.limit) params.set("search_limit", String(options.limit));
+  const params =
+    typeof paramsOrTerm === "string"
+      ? { term: paramsOrTerm }
+      : paramsOrTerm;
+
+  const qs = new URLSearchParams();
+  qs.set("term", params.term);
+  if (params.site) qs.set("site", params.site);
+  if (params.tags) qs.set("tags", params.tags);
+  if (params.category) qs.set("category", params.category);
+  if (params.ratingMin !== undefined) qs.set("rating_min", String(params.ratingMin));
+  if (params.priceMin !== undefined) qs.set("price_min", String(params.priceMin));
+  if (params.priceMax !== undefined) qs.set("price_max", String(params.priceMax));
+  if (params.date) qs.set("date", params.date);
+  if (params.dateUpdated) qs.set("date_updated", params.dateUpdated);
+  if (params.username) qs.set("username", params.username);
+  if (params.sortBy) qs.set("sort_by", params.sortBy);
+  if (params.sortDirection) qs.set("sort_direction", params.sortDirection);
+  if (params.page !== undefined) qs.set("page", String(params.page));
+  if (params.pageSize !== undefined) qs.set("page_size", String(params.pageSize));
+
   const data = await envatoRequest<EnvatoSearchResponse>(
-    `/catalog/search?${params.toString()}`,
+    `${ENVATO_DISCOVERY_SEARCH_BASE}?${qs.toString()}`,
     options
   );
   return Array.isArray(data.matches) ? data.matches : [];
