@@ -1,7 +1,7 @@
 import Script from "next/script";
 import { GA_ID, GOOGLE_ADS_ID } from "@/lib/constants";
 
-const loaderId = GA_ID || GOOGLE_ADS_ID;
+const loaderId = GOOGLE_ADS_ID || GA_ID;
 
 export function Analytics() {
   if (!loaderId) return null;
@@ -13,9 +13,9 @@ export function Analytics() {
     <>
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${loaderId}`}
-        strategy="afterInteractive"
+        strategy="beforeInteractive"
       />
-      <Script id="ga-config" strategy="afterInteractive">
+      <Script id="ga-config" strategy="beforeInteractive">
         {`window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());

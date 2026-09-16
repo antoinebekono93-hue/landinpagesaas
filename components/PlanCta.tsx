@@ -2,7 +2,7 @@
 
 import { EVENT_PLAN_INTENT } from "@/lib/constants";
 import { businessPlanById } from "@/lib/business-pricing";
-import { trackEvent } from "@/lib/tracking";
+import { trackConversion, trackEvent } from "@/lib/tracking";
 import { getWhatsAppHref } from "@/lib/utm";
 import { WhatsAppIcon } from "./WhatsAppIcon";
 
@@ -30,6 +30,7 @@ export function PlanCta({
       regular_price: pricing.regularMonthlyPrice,
       intro_months: pricing.introductoryMonths,
     });
+    trackConversion({ plan, location });
     const href = getWhatsAppHref(link);
     if (href !== link) {
       event.preventDefault();
