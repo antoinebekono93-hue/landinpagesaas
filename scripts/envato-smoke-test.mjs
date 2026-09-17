@@ -118,7 +118,7 @@ console.log("=== Test 2 — Recherche catalogue (GET discovery search) ===");
     sort_direction: "desc",
   });
   const { status, text } = await getJson(
-    `/v1/discovery/search/search/search/item?${qs.toString()}`,
+    `/v1/discovery/search/search/item?${qs.toString()}`,
     token
   );
   console.log(`[Envato] Search: ${status === 200 ? "OK" : "FAILED"}`);
@@ -139,7 +139,7 @@ console.log("=== Test 3 — Détail item (catalog item) ===");
     site: "codecanyon.net",
   });
   const { status, text } = await getJson(
-    `/v1/discovery/search/search/search/item?${qs.toString()}`,
+    `/v1/discovery/search/search/item?${qs.toString()}`,
     token
   );
   const id = status === 200 ? firstOf(tryParse(text)).first?.id : null;
@@ -176,7 +176,7 @@ console.log("=== Test 4 — Prix / licences (item-prices) ===");
     site: "codecanyon.net",
   });
   const { status, text } = await getJson(
-    `/v1/discovery/search/search/search/item?${qs.toString()}`,
+    `/v1/discovery/search/search/item?${qs.toString()}`,
     token
   );
   const id = status === 200 ? firstOf(tryParse(text)).first?.id : null;
