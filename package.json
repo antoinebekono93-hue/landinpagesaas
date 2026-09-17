@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "envato:smoke": "node scripts/envato-smoke-test.mjs",
+    "envato:smoke": "node scripts/envato-smoke-test.mjs"
   },
   "dependencies": {
     "@nhost/nhost-js": "^4.8.0",
