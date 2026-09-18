@@ -18,7 +18,7 @@ export function isNhostConfigured(): boolean {
 
 /** Endpoint GraphQL Hasura. */
 export function nhostGraphqlUrl(): string {
-  return `https://${nhostSubdomain()}.graphql.${nhostRegion()}.nhost.run/v1/graphql`;
+  return `https://${nhostSubdomain()}.hasura.${nhostRegion()}.nhost.run/v1/graphql`;
 }
 
 /** Base de l'API Auth Nhost (legacy /v1). */
