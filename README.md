@@ -126,7 +126,7 @@ d'**Envato Market**, synchronisées toutes les 6 heures dans **Nhost PostgreSQL*
 | Données source | Envato Market API (`ENVATO_API_TOKEN`) |
 | Base de données | Nhost PostgreSQL (GraphQL / Hasura) |
 | Auth admin | Nhost Auth (rôle `admin`) |
-| Cron / sync | Vercel (`CRON_SECRET` ou header `x-vercel-cron`) |
+| Cron / sync | **GitHub Actions** (`.github/workflows/envato-catalog-sync.yml`) |
 | Frontend | Next.js 15 (App Router) déployé sur Vercel |
 
 **Interdits** : scraping HTML / Playwright / Puppeteer, Supabase, Neon,
@@ -178,12 +178,24 @@ La première sync crée les produits. Les champs `license_verified`,
 4. `/admin/catalogue/[slug]` : édition d'un produit (catégorie, notes,
    flags, credentials de démo).
 
-### Cron Vercel
+### Cron GitHub Actions
 
-`vercel.json` déclenche la route `GET /api/catalog/sync` toutes les 6 heures.
-Le plan Vercel doit autoriser ce nombre d'exécutions. En cas de quota dépassé,
-retomber sur une synchronisation manuelle via `/admin/catalogue` ou une
-planification externe (GitHub Actions…).
+`.github/workflows/envato-catalog-sync.yml` déclenche la route
+`POST /api/catalog/sync` toutes les 6 heures (minutes `17`, soit
+`17 */6 * * *`), avec déclenchement manuel possible via `workflow_dispatch`.
+
+**Configurer les secrets GitHub** (GitHub → Settings → Secrets and
+variables → Actions) :
+
+| Secret | Valeur |
+| --- | --- |
+| `MERCO_SYNC_URL` | `https://landinpagesaas.vercel.app/api/catalog/sync` |
+| `CRON_SECRET` | même valeur que `CRON_SECRET` configuré dans Vercel |
+
+Le cron Vercel a été retiré (`vercel.json` ne contient plus de bloc
+`crons`) car le plan Hobby limite à 1 exécution/jour. Les secrets Envato
+alias Nhost ne sont jamais exposés dans GitHub Actions : le workflow fait
+simplement un `curl` Bearer vers la route Vercel protégée.
 
 ### Attribution Envato
 
