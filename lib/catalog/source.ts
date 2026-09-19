@@ -118,7 +118,7 @@ function staticItemToView(item: ResearchSaaS): CatalogProductView {
     ),
     productUrl: item.productUrl,
     previewUrl,
-    thumbnailUrl: null,
+    thumbnailUrl: item.thumbnailUrl ?? null,
     regularPriceUsd: item.regularPriceObservedUsd ?? null,
     extendedPriceUsd: item.extendedPriceObservedUsd ?? null,
     salesCount: item.salesObserved ?? null,
