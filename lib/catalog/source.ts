@@ -433,6 +433,7 @@ export function toCardModel(product: CatalogProductView): CatalogCardModel {
     commerciallyAvailable: product.commerciallyAvailable,
     previewUrl: product.previewUrl,
     thumbnailUrl: product.thumbnailUrl,
+    mercoScreenshot: product.mercoScreenshots[0] ?? null,
     envatoItemId: product.envatoItemId,
   };
 }

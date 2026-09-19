@@ -207,6 +207,24 @@ export type EnvatoThumbnailUrl = {
   [size: string]: string;
 };
 
+/**
+ * Preview d'un item Envato. Le endpoint `/v3/market/catalog/item` renvoie
+ * `previews` sous forme d'OBJET `{ [type]: preview }` (ex. `landscape_preview`,
+ * `icon_with_video_preview`, `icon_preview`). Le endpoint discovery search
+ * renvoie parfois un tableau. On supporte les deux formes.
+ */
+export type EnvatoCatalogPreview = {
+  type?: string;
+  href?: string;
+  icon_url?: string;
+  small_url?: string;
+  large_url?: string;
+  landscape_url?: string;
+  square_url?: string;
+  thumbnail_url?: string;
+  video_url?: string;
+};
+
 export type EnvatoSearchItem = {
   id: number;
   name?: string;
@@ -224,7 +242,9 @@ export type EnvatoSearchItem = {
   tags?: string[];
   preview_url?: string | null;
   live_preview_url?: string | null;
+  thumbnail_url?: string | null;
   thumbnail_urls?: EnvatoThumbnailUrl;
+  previews?: EnvatoCatalogPreview[] | Record<string, EnvatoCatalogPreview>;
 };
 
 export type EnvatoSearchResponse = {
@@ -244,6 +264,39 @@ export type EnvatoCatalogItem = EnvatoSearchItem & {
   versions?: string[];
   attributes?: EnvatoAttribute[];
 };
+
+/**
+ * Meilleure image d'un item Envato (serveur uniquement).
+ * Priorité : previews[].landscape_url → previews[].large_url →
+ * previews[].square_url → previews[].thumbnail_url → item.thumbnail_url → null.
+ * Les previews peuvent être un objet (catalog item) ou un tableau (search) ;
+ * on itère les deux. Les valeurs vides sont ignorées.
+ */
+export function getBestEnvatoImage(
+  item: Pick<EnvatoCatalogItem, "previews" | "thumbnail_url">
+): string | null {
+  const previews = Array.isArray(item.previews)
+    ? item.previews
+    : Object.values(item.previews ?? {});
+  const priority: Array<keyof EnvatoCatalogPreview> = [
+    "landscape_url",
+    "large_url",
+    "square_url",
+    "thumbnail_url",
+  ];
+  for (const key of priority) {
+    for (const preview of previews) {
+      const value = preview?.[key];
+      if (typeof value === "string" && value.trim().length > 0) {
+        return value.trim();
+      }
+    }
+  }
+  if (typeof item.thumbnail_url === "string" && item.thumbnail_url.trim().length > 0) {
+    return item.thumbnail_url.trim();
+  }
+  return null;
+}
 
 /* ─────────────────────────── Endpoints ─────────────────────────── */
 

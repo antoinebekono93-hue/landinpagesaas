@@ -5,6 +5,7 @@ import {
 } from "@/lib/envato/category-queries";
 import {
   EnvatoApiError,
+  getBestEnvatoImage,
   getCatalogItem,
   isCodeCanyonItem,
   readPriceUsd,
@@ -306,11 +307,8 @@ function normalize(
     category_key: categoryKey,
     envato_category: item.classification ?? null,
     product_url: item.url ?? `https://codecanyon.net/item/${item.id}`,
-    preview_url: item.preview_url ?? item.live_preview_url ?? null,
-    thumbnail_url:
-      Object.values(item.thumbnail_urls ?? {})[0] ??
-      item.thumbnail_urls?.small ??
-      null,
+    preview_url: item.live_preview_url ?? item.preview_url ?? null,
+    thumbnail_url: getBestEnvatoImage(item),
     regular_price_usd: regular,
     extended_price_usd: extended,
     sales_count: item.number_of_sales ?? null,

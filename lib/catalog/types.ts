@@ -178,10 +178,9 @@ export type CatalogCardModel = {
   commerciallyAvailable: boolean;
   previewUrl: string | null;
   thumbnailUrl: string | null;
+  mercoScreenshot: string | null;
   envatoItemId: string | null;
 };
-
-/** Type de source des données affichées. */
 export type CatalogSourceMode = "nhost" | "static-fallback";
 
 export type CatalogLoadResult = {

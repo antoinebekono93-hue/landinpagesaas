@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 import type { CatalogCardModel } from "@/lib/catalog/types";
 import { isCommerciallyAvailableView } from "@/lib/catalog/status";
 import { IconLayers } from "@/components/icons";
@@ -20,15 +23,19 @@ interface ProductCardProps {
 export function ProductCard({ product, location = "catalog_grid" }: ProductCardProps) {
   const available = isCommerciallyAvailableView(product);
   const multiTenant = MULTI_TENANT_LABEL[product.multiTenantStatus] ?? null;
+  const imageSrc = product.mercoScreenshot ?? product.thumbnailUrl ?? null;
+  const [imageFailed, setImageFailed] = useState(false);
+  const showImage = imageSrc !== null && !imageFailed;
 
   return (
     <article className="card flex flex-col overflow-hidden">
-      {product.thumbnailUrl ? (
+      {showImage ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={product.thumbnailUrl}
+          src={imageSrc}
           alt={`Aperçu de ${product.name}`}
           loading="lazy"
+          onError={() => setImageFailed(true)}
           className="aspect-[16/9] w-full object-cover"
         />
       ) : (
