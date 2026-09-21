@@ -22,8 +22,7 @@ export function LaunchpadMobileNav({
         <Link
           key={tab.href}
           href={tab.href}
-          className="flex flex-1 flex-col items-center justify-center gap-0.5 text-[11px] text-muted transition-colors hover:text-white",
-
+          className="flex flex-1 flex-col items-center justify-center gap-0.5 text-[11px] text-muted transition-colors hover:text-white"
         >
           {tab.label}
         </Link>
@@ -31,4 +30,3 @@ export function LaunchpadMobileNav({
     </nav>
   );
 }
-

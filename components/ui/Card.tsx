@@ -1,6 +1,6 @@
-import type { HTMLAttributes, ReactNode } from "react";
+import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from "react";
 
-interface CardProps extends HTMLAttributes<HTMLDivElement> {
+interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, "title" | "prefix"> {
   prefix?: ReactNode;
   status?: ReactNode;
   title?: ReactNode;
@@ -22,11 +22,10 @@ export function Card({
 }: CardProps) {
   return (
     <div
-      className={`group rounded-2xl border border-line-soft bg-surface-2 p-5 transition-colors hover:border-line ${
-
-        title || status || footer ? "" : ""
-
-      } ${className}`}
+      className={[
+        "rounded-2xl border border-line-soft bg-surface-2 p-5 transition-colors hover:border-line",
+        className,
+      ].join(" ")}
       {...rest}
     >
       {prefix || status ? (
@@ -43,8 +42,6 @@ export function Card({
   );
 }
 
-import type { ButtonHTMLAttributes, ReactNode } from "react";
-
 export function ButtonLink({
   href,
   children,
@@ -56,7 +53,7 @@ export function ButtonLink({
   className?: string;
 } & ButtonHTMLAttributes<HTMLButtonElement>) {
   return href ? (
-    <a href={href} className={className} {...(rest as never)}>
+    <a href={href} className={className} {...(rest as ButtonHTMLAttributes<HTMLAnchorElement>)}>
       {children}
     </a>
   ) : (

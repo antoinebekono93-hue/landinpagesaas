@@ -1,7 +1,10 @@
 import Link from "next/link";
-import type { AnchorHTMLAttributes } from "react";
+import type { HTMLAttributes } from "react";
 
-interface NavItem { label: string; href: string }
+interface NavItem {
+  label: string;
+  href: string;
+}
 
 interface SidebarSection {
   title: string;
@@ -37,7 +40,7 @@ const sections: SidebarSection[] = [
 export function LaunchpadSidebar({
   className = "",
   ...rest
-}: AnchorHTMLAttributes<HTMLElement>) {
+}: HTMLAttributes<HTMLElement>) {
   return (
     <nav aria-label="Launchpad" className={`space-y-0.5 ${className}`} {...rest}>
       {sections.map((section) => (
@@ -49,8 +52,7 @@ export function LaunchpadSidebar({
             <Link
               key={item.href}
               href={item.href}
-              className="block rounded-lg px-3 py-1.5 text-sm text-muted transition-colors hover:bg-surface-2 hover:text-white",
-
+              className="block rounded-lg px-3 py-1.5 text-sm text-muted transition-colors hover:bg-surface-2 hover:text-white"
             >
               {item.label}
             </Link>
@@ -60,4 +62,3 @@ export function LaunchpadSidebar({
     </nav>
   );
 }
-
