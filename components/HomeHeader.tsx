@@ -4,6 +4,9 @@ import { WhatsAppButton } from "./WhatsAppButton";
 
 const navLinks = [
   { label: "Solutions", href: "#bibliotheque" },
+  { label: "Catalogue MERCO", href: "/creer-saas/catalogue" },
+  { label: "MERCO Business", href: "/creer-saas" },
+  { label: "Bibliothèque MERCO", href: "/bibliotheque" },
   { label: "Opportunités", href: "#valeur" },
   { label: "Comment ça marche", href: "#fonctionnement" },
   { label: "FAQ", href: "#faq" },

@@ -1,3 +1,16 @@
+import { Geist, JetBrains_Mono } from "next/font/google";
+
+const geistSans = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist-sans",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
+  display: "swap",
+});
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Analytics } from "@/components/Analytics";
@@ -53,7 +66,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
+    <html lang="fr" className={`${geistSans.variable} ${jetbrainsMono.variable}`}>
       <body>
         {children}
         <Analytics />

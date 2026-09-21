@@ -15,8 +15,30 @@
   --color-line: #1e293b;
   --color-line-soft: #334155;
 
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+  --color-lp-charcoal: #2a2d2d;
+  --color-lp-border: rgba(255, 255, 255, 0.06);
+  --color-lp-border-strong: rgba(255, 255, 255, 0.12);
+  --color-lp-text: #f5f3ef;
+  --color-lp-text-2: #9da5aa;
+  --color-lp-muted: #6b7280;
+  --color-coral: #ff9e7a;
+  --color-coral-strong: #ff835f;
+  --color-coral-soft: rgba(255, 158, 122, 0.12);
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-danger: #f87171;
+  --color-info: #60a5fa;
+  --color-lp-bg: #0b0c0c;
+  --color-lp-deep: #090a0b;
+  --color-lp-surface: #101112;
+  --color-lp-surface-2: #18191a;
+  --color-lp-surface-3: #1e2021
+
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo,
+    Consolas, "Liberation Mono", monospace;
 }
 
 * {

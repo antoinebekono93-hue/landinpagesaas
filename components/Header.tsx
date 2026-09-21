@@ -33,6 +33,8 @@ const desktopGroups: { key: string; label: string; items: NavItem[] }[] = [
 ];
 
 const desktopLinks: NavItem[] = [
+  { key: "catalogue", label: "Catalogue", href: "/creer-saas/catalogue" },
+  { key: "bibliotheque", label: "Bibliothèque MERCO", href: "/bibliotheque" },
   { key: "comment", label: "Comment ça marche", href: "/creer-saas/comment-ca-marche" },
   { key: "demo", label: "Démo", href: "/creer-saas/demo" },
   { key: "faq", label: "FAQ", href: "/creer-saas/faq" },
