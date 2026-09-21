@@ -95,3 +95,18 @@ export function isCommerciallyAvailableView(product: {
     product.commerciallyAvailable === true
   );
 }
+
+/**
+ * REGLE COMMERCIALE UNIQUE (alias public).
+ * true uniquement si la totalité des conditions manuelles MERCO est réunie.
+ * Cette fonction délègue à isCommerciallyAvailableView : jamais de 2e logique.
+ */
+export function isMercoCommerciallyAvailable(product: {
+  status: string;
+  saasCandidate: boolean;
+  licenseVerified: boolean;
+  technicallyVerified: boolean;
+  commerciallyAvailable: boolean;
+}): boolean {
+  return isCommerciallyAvailableView(product);
+}

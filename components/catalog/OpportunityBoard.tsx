@@ -12,6 +12,7 @@ export interface OpportunityCategoryOption {
 interface OpportunityBoardProps {
   products: CatalogCardModel[];
   categories: OpportunityCategoryOption[];
+  initialCategory?: string;
 }
 
 type Stage = "research" | "audit" | "available";
@@ -47,8 +48,9 @@ const STAGES: {
 export function OpportunityBoard({
   products,
   categories,
+  initialCategory = "all",
 }: OpportunityBoardProps) {
-  const [categoryKey, setCategoryKey] = useState<string>("all");
+  const [categoryKey, setCategoryKey] = useState<string>(initialCategory);
 
   const filtered = useMemo(() => {
     const resolved =

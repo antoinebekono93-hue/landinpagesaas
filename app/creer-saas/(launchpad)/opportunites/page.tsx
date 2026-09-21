@@ -29,7 +29,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function LaunchpadOpportunitesPage() {
+export default async function LaunchpadOpportunitesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>;
+}) {
+  const { category } = await searchParams;
+  const initialCategory =
+    category && getCatalogCategories().some((c) => c.key === category)
+      ? category
+      : "all";
   const { products, mode, lastSyncedAt } = await loadCatalog();
   const opportunities = products
     .filter((product) => isSelectionCandidate(product.status))
@@ -71,7 +80,11 @@ export default async function LaunchpadOpportunitesPage() {
       ) : null}
 
       <div className="mt-6">
-        <OpportunityBoard products={opportunities} categories={categoryOptions} />
+        <OpportunityBoard
+          products={opportunities}
+          categories={categoryOptions}
+          initialCategory={initialCategory}
+        />
       </div>
 
       {lastSyncedAt ? (

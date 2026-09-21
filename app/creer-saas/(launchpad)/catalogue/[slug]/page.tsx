@@ -9,6 +9,10 @@ import { ProductCta } from "@/components/catalog/ProductCta";
 import { ProductViewTracker } from "@/components/catalog/ProductViewTracker";
 import { EnvatoAttribution } from "@/components/catalog/EnvatoAttribution";
 import { ScoreRing } from "@/components/catalog/ScoreRing";
+import { MercoVerificationStatus } from "@/components/catalog/MercoVerificationStatus";
+import { WhiteLabelCard } from "@/components/catalog/WhiteLabelCard";
+import { FeaturesGrid } from "@/components/catalog/FeaturesGrid";
+import { ConfidenceTag } from "@/components/catalog/ConfidenceTag";
 import { IconLayers } from "@/components/icons";
 import { loadProductBySlug, getFallbackSlugs } from "@/lib/catalog/source";
 import { isCommerciallyAvailableView } from "@/lib/catalog/status";
@@ -226,6 +230,45 @@ export default async function ProductPage({
             ) : null}
           </section>
 
+          <section aria-labelledby="merco-intel-title" className="space-y-5">
+            <div className="flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <h2
+                  id="merco-intel-title"
+                  className="text-lg font-bold tracking-tight text-white"
+                >
+                  Analyse MERCO
+                </h2>
+                <p className="mt-1 text-sm text-muted">
+                  Ce que MERCO sait sur cette application avant de lancer.
+                </p>
+              </div>
+              <Link
+                href={`/creer-saas/opportunites?category=${encodeURIComponent(product.categoryKey)}`}
+                className="inline-flex items-center gap-2 rounded-full border border-accent-soft/60 bg-accent/10 px-5 py-2.5 text-sm font-semibold text-accent-soft transition-colors hover:bg-accent/20"
+              >
+                Explorer l&apos;opportunité business
+              </Link>
+            </div>
+
+            <div className="grid gap-5 lg:grid-cols-2">
+              <MercoVerificationStatus
+                product={{
+                  saasCandidate: product.saasCandidate,
+                  licenseVerified: product.licenseVerified,
+                  technicallyVerified: product.technicallyVerified,
+                  commerciallyAvailable: product.commerciallyAvailable,
+                }}
+              />
+              <div className="space-y-5">
+                {product.features.length > 0 ? (
+                  <FeaturesGrid features={product.features} />
+                ) : null}
+                <WhiteLabelCard whiteLabelStatus={product.whiteLabelStatus} />
+              </div>
+            </div>
+          </section>
+
           <section aria-labelledby="product-details-title" className="space-y-5">
             <h2
               id="product-details-title"
@@ -259,6 +302,7 @@ export default async function ProductPage({
 
             {product.techStack.length > 0 ? (
               <Section title="Technologies observées">
+                <ConfidenceTag level="source" className="mb-2" />
                 <TagList items={product.techStack} />
               </Section>
             ) : null}
@@ -365,9 +409,10 @@ export default async function ProductPage({
                   </div>
                 ))}
             </dl>
-            <p className="mt-3 text-xs text-muted">
-              Le score MERCO oriente l&apos;audit manuel. Il ne constitue jamais
-              une preuve de licence.
+            <p className="mt-3 text-xs leading-relaxed text-muted">
+              Indicateur interne de priorité basé sur les caractéristiques
+              observées dans la source et les données du catalogue.
+              Ce score ne garantit ni qualité commerciale ni rentabilité.
             </p>
 
             <div className="mt-5 space-y-3">
