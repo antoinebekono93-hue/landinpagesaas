@@ -13,6 +13,7 @@ import { MercoVerificationStatus } from "@/components/catalog/MercoVerificationS
 import { WhiteLabelCard } from "@/components/catalog/WhiteLabelCard";
 import { FeaturesGrid } from "@/components/catalog/FeaturesGrid";
 import { ConfidenceTag } from "@/components/catalog/ConfidenceTag";
+import { SourceHistoryCard } from "@/components/catalog/SourceHistoryCard";
 import { IconLayers } from "@/components/icons";
 import { loadProductBySlug, getFallbackSlugs } from "@/lib/catalog/source";
 import { isCommerciallyAvailableView } from "@/lib/catalog/status";
@@ -32,17 +33,6 @@ const MULTI_TENANT_LABEL: Record<string, string | null> = {
 
 function formatUsd(value: number | null): string | null {
   return value === null ? null : `${value} $`;
-}
-
-function formatDate(value: string | null): string | null {
-  if (!value) return null;
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return null;
-  return date.toLocaleDateString("fr-FR", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
 }
 
 function Section({
@@ -125,27 +115,6 @@ export default async function ProductPage({
   const available = isCommerciallyAvailableView(product);
   const multiTenant = MULTI_TENANT_LABEL[product.multiTenantStatus] ?? null;
   const heroImage = product.mercoScreenshots[0] ?? product.thumbnailUrl ?? null;
-
-  const observedRows: { label: string; value: string | null }[] = [
-    { label: "Prix source", value: formatUsd(product.regularPriceUsd) },
-    {
-      label: "Prix source étendu",
-      value: formatUsd(product.extendedPriceUsd),
-    },
-    {
-      label: "Ventes observées sur Envato Market",
-      value: product.salesCount !== null ? String(product.salesCount) : null,
-    },
-    {
-      label: "Note observée sur la source",
-      value:
-        product.rating !== null
-          ? `${product.rating} / 5${product.ratingCount !== null ? ` (${product.ratingCount} avis)` : ""}`
-          : null,
-    },
-    { label: "Publié le", value: formatDate(product.publishedAt) },
-    { label: "Mis à jour sur la source", value: formatDate(product.updatedAtEnvato) },
-  ];
 
   return (
     <div className="w-full">
@@ -230,7 +199,7 @@ export default async function ProductPage({
             ) : null}
           </section>
 
-          <section aria-labelledby="merco-intel-title" className="space-y-5">
+          <section aria-labelledby="merco-intel-title" className="space-y-8">
             <div className="flex flex-wrap items-end justify-between gap-3">
               <div>
                 <h2
@@ -240,7 +209,8 @@ export default async function ProductPage({
                   Analyse MERCO
                 </h2>
                 <p className="mt-1 text-sm text-muted">
-                  Ce que MERCO sait sur cette application avant de lancer.
+                  Deux sources d&apos;information distinctes : ce que la source
+                  officielle déclare, et ce que l&apos;audit MERCO a validé.
                 </p>
               </div>
               <Link
@@ -252,18 +222,37 @@ export default async function ProductPage({
             </div>
 
             <div className="grid gap-5 lg:grid-cols-2">
-              <MercoVerificationStatus
-                product={{
-                  saasCandidate: product.saasCandidate,
-                  licenseVerified: product.licenseVerified,
-                  technicallyVerified: product.technicallyVerified,
-                  commerciallyAvailable: product.commerciallyAvailable,
-                }}
-              />
               <div className="space-y-5">
-                {product.features.length > 0 ? (
-                  <FeaturesGrid features={product.features} />
-                ) : null}
+                <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted">
+                  <span aria-hidden="true" className="h-2 w-2 rounded-full bg-saas" />
+                  Source history
+                </p>
+                <SourceHistoryCard
+                  rating={product.rating}
+                  ratingCount={product.ratingCount}
+                  salesCount={product.salesCount}
+                  regularPriceUsd={product.regularPriceUsd}
+                  extendedPriceUsd={product.extendedPriceUsd}
+                  updatedAtEnvato={product.updatedAtEnvato}
+                  sourceVerified={product.sourceVerified}
+                  publishedAt={product.publishedAt}
+                  hasPreview={product.previewUrl !== null}
+                />
+              </div>
+
+              <div className="space-y-5">
+                <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted">
+                  <span aria-hidden="true" className="h-2 w-2 rounded-full bg-accent" />
+                  Merco audit history
+                </p>
+                <MercoVerificationStatus
+                  product={{
+                    saasCandidate: product.saasCandidate,
+                    licenseVerified: product.licenseVerified,
+                    technicallyVerified: product.technicallyVerified,
+                    commerciallyAvailable: product.commerciallyAvailable,
+                  }}
+                />
                 <WhiteLabelCard whiteLabelStatus={product.whiteLabelStatus} />
               </div>
             </div>
@@ -277,22 +266,9 @@ export default async function ProductPage({
               Détails du produit
             </h2>
 
-            <Section title="Informations observées sur la source">
-              <dl className="space-y-2 text-sm">
-                {observedRows
-                  .filter((row) => row.value !== null)
-                  .map((row) => (
-                    <div key={row.label}>
-                      <dt className="text-muted">{row.label}</dt>
-                      <dd className="text-slate-100">{row.value}</dd>
-                    </div>
-                  ))}
-              </dl>
-              <p className="mt-4 text-xs leading-relaxed text-muted">
-                Ce prix correspond à la source officielle et ne constitue pas le
-                tarif de l&apos;abonnement MERCO.
-              </p>
-            </Section>
+            {product.features.length > 0 ? (
+              <FeaturesGrid features={product.features} />
+            ) : null}
 
             {product.targetCustomers.length > 0 ? (
               <Section title="Cibles recommandées">
