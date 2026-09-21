@@ -16,17 +16,16 @@ const groups = [
   {
     title: "Launchpad",
     items: [
-      { label: "Decouvrir", href: "/creer-saas/launchpad/decouvrir" },
-      { label: "Catalogue", href: "/creer-saas/launchpad/catalogue" },
-      { label: "Opportunites", href: "/creer-saas/launchpad/opportunites" },
-      { label: "Enregistres", href: "/creer-saas/launchpad/enregistres" },
+      { label: "Catalogue", href: "/creer-saas/catalogue" },
+      { label: "Opportunites", href: "/creer-saas/opportunites" },
+      { label: "Enregistres", href: "/creer-saas/enregistres" },
     ],
   },
   {
     title: "Business",
     items: [
       { label: "Mes applications", href: "/creer-saas/mes-applications" },
-      { label: "Deploiements", href: "/creer-saas/launchpad/deploiements" },
+      { label: "Deploiements", href: "/creer-saas/deploiements" },
     ],
   },
   {

@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { HTMLAttributes } from "react";
 
 const tabs = [
-  { label: "Catalogue", href: "/creer-saas/launchpad/catalogue" },
+  { label: "Catalogue", href: "/creer-saas/catalogue" },
   { label: "Applications", href: "/creer-saas/mes-applications" },
   { label: "Ressources", href: "/bibliotheque" },
   { label: "Accueil", href: "/" },

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PageShell } from "@/components/PageShell";
 import { ProductStatusBadge } from "@/components/catalog/ProductStatusBadge";
 import { ProductSourceLink } from "@/components/catalog/ProductSourceLink";
 import { OfficialDemoCard } from "@/components/catalog/OfficialDemoCard";
@@ -117,13 +116,6 @@ export default async function ProductPage({
   const available = isCommerciallyAvailableView(product);
   const multiTenant = MULTI_TENANT_LABEL[product.multiTenantStatus] ?? null;
 
-  const crumbs = [
-    { label: "MERCO", href: "/" },
-    { label: "Business SaaS", href: "/creer-saas" },
-    { label: "Catalogue", href: "/creer-saas/catalogue" },
-    { label: product.name, current: true },
-  ];
-
   const observedRows: { label: string; value: string | null }[] = [
     { label: "Prix source", value: formatUsd(product.regularPriceUsd) },
     {
@@ -146,7 +138,7 @@ export default async function ProductPage({
   ];
 
   return (
-    <PageShell crumbs={crumbs} location="breadcrumbs_product_page">
+    <div className="w-full">
       <ProductViewTracker
         productId={product.id}
         envatoItemId={product.envatoItemId}
@@ -156,7 +148,7 @@ export default async function ProductPage({
         location="product_page"
       />
 
-      <section className="container-page py-10 sm:py-14">
+      <section className="pb-6 sm:pb-8">
         <div className="flex flex-wrap items-center gap-2 text-[11px] font-medium">
           <ProductStatusBadge status={product.status} />
           <span className="rounded-full border border-line-soft bg-surface-2 px-2.5 py-1 text-slate-200">
@@ -169,7 +161,7 @@ export default async function ProductPage({
           ) : null}
         </div>
 
-        <h1 className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+        <h1 className="mt-4 text-2xl font-bold tracking-tight text-white sm:text-3xl">
           {product.name}
         </h1>
         {product.author ? (
@@ -215,7 +207,7 @@ export default async function ProductPage({
         </div>
       </section>
 
-      <section className="container-page pb-14">
+      <section className="pb-6">
         <div className="grid gap-5 lg:grid-cols-2">
           <div className="space-y-5">
             <Section title="Informations observées sur la source">
@@ -320,6 +312,6 @@ export default async function ProductPage({
           </Link>
         </div>
       </section>
-    </PageShell>
+    </div>
   );
 }

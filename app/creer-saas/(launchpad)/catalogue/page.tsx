@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { PageShell } from "@/components/PageShell";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { WHATSAPP_LINK_HOME } from "@/lib/constants";
 import { EnvatoAttribution } from "@/components/catalog/EnvatoAttribution";
@@ -31,12 +30,6 @@ export const metadata: Metadata = {
   },
 };
 
-const crumbs = [
-  { label: "MERCO", href: "/" },
-  { label: "Business SaaS", href: "/creer-saas" },
-  { label: "Catalogue", current: true },
-];
-
 const EXCLUDED_STATUSES = ["rejected", "archived"];
 
 export default async function CataloguePage() {
@@ -48,12 +41,12 @@ export default async function CataloguePage() {
   const fresh = mode === "nhost" && isEnvatoDataFresh(lastSyncedAt);
 
   return (
-    <PageShell crumbs={crumbs} location="breadcrumbs_catalogue">
-      <section className="container-page py-10 text-center sm:py-14">
-        <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+    <div className="w-full">
+      <section className="py-6 sm:py-8">
+        <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
           Quel SaaS voulez-vous lancer&nbsp;?
         </h1>
-        <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-muted">
+        <p className="mx-auto mt-3 max-w-2xl leading-relaxed text-muted">
           Explorez les catégories MERCO et les candidats détectés sur Envato
           Market. Les solutions activées commercialement sont marquées
           «&nbsp;Disponible avec MERCO&nbsp;».
@@ -61,7 +54,7 @@ export default async function CataloguePage() {
       </section>
 
       {mode === "static-fallback" ? (
-        <div className="container-page pb-2">
+        <div className="pb-2">
           <div className="rounded-2xl border border-warn/40 bg-warn/10 px-4 py-4 text-sm leading-relaxed text-warn-soft">
             Le catalogue automatique sera activé une fois Nhost et l&apos;API
             Envato configurés. En attendant, voici les candidats détectés lors
@@ -72,7 +65,7 @@ export default async function CataloguePage() {
       ) : null}
 
       {mode === "nhost" && !fresh ? (
-        <div className="container-page pb-2">
+        <div className="pb-2">
           <div className="rounded-2xl border border-warn/40 bg-warn/10 px-4 py-4 text-sm leading-relaxed text-warn-soft">
             Données source en cours de mise à jour. Les informations affichées
             restent celles de la dernière synchronisation Envato.
@@ -80,7 +73,7 @@ export default async function CataloguePage() {
         </div>
       ) : null}
 
-      <section className="container-page pb-10" aria-label="Explorateur de catalogue">
+      <section className="pb-8" aria-label="Explorateur de catalogue">
         <CatalogExplorer products={cards} categories={categories} />
         {lastSyncedAt ? (
           <p className="mt-6 text-center text-xs text-muted">
@@ -90,8 +83,8 @@ export default async function CataloguePage() {
         <EnvatoAttribution className="mx-auto mt-4 max-w-2xl text-center" />
       </section>
 
-      <section className="border-t border-line">
-        <div className="container-page py-14 text-center">
+      <section className="border-t border-line pt-8">
+        <div className="text-center">
           <h2 className="text-xl font-bold text-white sm:text-2xl">
             Vous ne trouvez pas la catégorie idéale&nbsp;?
           </h2>
@@ -127,6 +120,6 @@ export default async function CataloguePage() {
           </p>
         </div>
       </section>
-    </PageShell>
+    </div>
   );
 }
