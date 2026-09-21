@@ -21,10 +21,17 @@ export default function LaunchpadLayout({
   const pathname = usePathname();
   const segments = pathname.split("/").filter(Boolean);
   const current = segments[1] ?? "catalogue";
-  const title = LABELS[current] ?? "Catalogue";
+  const isProductSheet = current === "catalogue" && segments.length > 2;
+  const title = isProductSheet ? "Fiche produit" : LABELS[current] ?? "Catalogue";
+  const crumbs = isProductSheet
+    ? [
+        { label: "Catalogue", href: "/creer-saas/catalogue" },
+        { label: "Fiche produit" },
+      ]
+    : [{ label: title }];
 
   return (
-    <LaunchpadShell title={title} crumbs={[{ label: title }]}>
+    <LaunchpadShell title={title} crumbs={crumbs}>
       {children}
     </LaunchpadShell>
   );

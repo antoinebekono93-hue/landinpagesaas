@@ -8,6 +8,8 @@ import { PublicDemoCredentials } from "@/components/catalog/PublicDemoCredential
 import { ProductCta } from "@/components/catalog/ProductCta";
 import { ProductViewTracker } from "@/components/catalog/ProductViewTracker";
 import { EnvatoAttribution } from "@/components/catalog/EnvatoAttribution";
+import { ScoreRing } from "@/components/catalog/ScoreRing";
+import { IconLayers } from "@/components/icons";
 import { loadProductBySlug, getFallbackSlugs } from "@/lib/catalog/source";
 import { isCommerciallyAvailableView } from "@/lib/catalog/status";
 
@@ -85,6 +87,8 @@ export async function generateMetadata({
     };
   }
   const indexable = isCommerciallyAvailableView(product);
+  const previewImage =
+    product.mercoScreenshots[0] ?? product.thumbnailUrl ?? product.previewUrl;
   return {
     title: `${product.name} – Fiche SaaS MERCO`,
     description: product.description.slice(0, 160),
@@ -99,6 +103,7 @@ export async function generateMetadata({
       siteName: "MERCO",
       title: `${product.name} – Fiche SaaS MERCO`,
       description: product.description.slice(0, 160),
+      images: previewImage ? [{ url: previewImage }] : undefined,
     },
   };
 }
@@ -115,6 +120,7 @@ export default async function ProductPage({
 
   const available = isCommerciallyAvailableView(product);
   const multiTenant = MULTI_TENANT_LABEL[product.multiTenantStatus] ?? null;
+  const heroImage = product.mercoScreenshots[0] ?? product.thumbnailUrl ?? null;
 
   const observedRows: { label: string; value: string | null }[] = [
     { label: "Prix source", value: formatUsd(product.regularPriceUsd) },
@@ -148,68 +154,86 @@ export default async function ProductPage({
         location="product_page"
       />
 
-      <section className="pb-6 sm:pb-8">
-        <div className="flex flex-wrap items-center gap-2 text-[11px] font-medium">
-          <ProductStatusBadge status={product.status} />
-          <span className="rounded-full border border-line-soft bg-surface-2 px-2.5 py-1 text-slate-200">
-            {product.categoryLabel}
-          </span>
-          {multiTenant ? (
-            <span className="rounded-full border border-saas/30 bg-saas/10 px-2.5 py-1 text-saas">
-              {multiTenant}
-            </span>
-          ) : null}
-        </div>
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
+        {/* ─────────── Colonne principale ─────────── */}
+        <div className="min-w-0 space-y-8">
+          <section aria-labelledby="product-hero-title">
+            <div className="flex flex-wrap items-center gap-2 text-[11px] font-medium">
+              <ProductStatusBadge status={product.status} />
+              <span className="rounded-full border border-line-soft bg-surface-2 px-2.5 py-1 text-slate-200">
+                {product.categoryLabel}
+              </span>
+              {multiTenant ? (
+                <span className="rounded-full border border-saas/30 bg-saas/10 px-2.5 py-1 text-saas">
+                  {multiTenant}
+                </span>
+              ) : null}
+            </div>
 
-        <h1 className="mt-4 text-2xl font-bold tracking-tight text-white sm:text-3xl">
-          {product.name}
-        </h1>
-        {product.author ? (
-          <p className="mt-2 text-sm text-muted">par {product.author}</p>
-        ) : null}
+            <h1
+              id="product-hero-title"
+              className="mt-4 text-2xl font-bold tracking-tight text-white sm:text-3xl"
+            >
+              {product.name}
+            </h1>
+            {product.author ? (
+              <p className="mt-2 text-sm text-muted">par {product.author}</p>
+            ) : null}
 
-        <p className="mt-4 max-w-3xl leading-relaxed text-slate-200">
-          {product.description}
-        </p>
+            {heroImage ? (
+              <div className="mt-6 overflow-hidden rounded-2xl border border-line-soft bg-surface-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={heroImage}
+                  alt={`Aperçu de ${product.name}`}
+                  className="aspect-[16/9] w-full object-cover"
+                />
+              </div>
+            ) : (
+              <div className="mt-6 flex aspect-[16/9] w-full items-center justify-center rounded-2xl border border-line-soft bg-surface-2/70">
+                <IconLayers className="h-12 w-12 text-muted" />
+              </div>
+            )}
 
-        {available ? (
-          <div className="mt-6 rounded-2xl border border-accent/40 bg-accent/10 px-4 py-4 text-sm leading-relaxed text-accent-soft">
-            Ce SaaS est disponible avec MERCO Business (licence et vérification
-            technique validées). Prêt à être vendu sur votre domaine, avec vos
-            factures et votre marque.
-          </div>
-        ) : product.status === "source_unavailable" ? (
-          <div className="mt-6 rounded-2xl border border-warn/40 bg-warn/10 px-4 py-4 text-sm leading-relaxed text-warn-soft">
-            Données source en cours de mise à jour. Les informations affichées
-            restent celles de la dernière synchronisation Envato.
-          </div>
-        ) : null}
+            <p className="mt-6 max-w-3xl leading-relaxed text-slate-200">
+              {product.description}
+            </p>
 
-        <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <ProductCta
-            productId={product.id}
-            envatoItemId={product.envatoItemId}
-            name={product.name}
-            category={product.categoryKey}
-            status={product.status}
-            saasScore={product.saasScore}
-            available={available}
-            location="product_page_cta"
-          />
-          <ProductSourceLink
-            url={product.productUrl}
-            productId={product.id}
-            envatoItemId={product.envatoItemId}
-            category={product.categoryKey}
-            location="product_page"
-            label="Ouvrir la source officielle"
-          />
-        </div>
-      </section>
+            {product.tags.length > 0 ? (
+              <div className="mt-4 flex flex-wrap gap-1.5">
+                {product.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-md border border-line bg-surface-2 px-2 py-1 text-xs text-muted"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            ) : null}
 
-      <section className="pb-6">
-        <div className="grid gap-5 lg:grid-cols-2">
-          <div className="space-y-5">
+            {available ? (
+              <div className="mt-6 rounded-2xl border border-accent/40 bg-accent/10 px-4 py-4 text-sm leading-relaxed text-accent-soft">
+                Ce SaaS est disponible avec MERCO Business (licence et
+                vérification technique validées). Prêt à être vendu sur votre
+                domaine, avec vos factures et votre marque.
+              </div>
+            ) : product.status === "source_unavailable" ? (
+              <div className="mt-6 rounded-2xl border border-warn/40 bg-warn/10 px-4 py-4 text-sm leading-relaxed text-warn-soft">
+                Données source en cours de mise à jour. Les informations
+                affichées restent celles de la dernière synchronisation Envato.
+              </div>
+            ) : null}
+          </section>
+
+          <section aria-labelledby="product-details-title" className="space-y-5">
+            <h2
+              id="product-details-title"
+              className="sr-only"
+            >
+              Détails du produit
+            </h2>
+
             <Section title="Informations observées sur la source">
               <dl className="space-y-2 text-sm">
                 {observedRows
@@ -254,9 +278,7 @@ export default async function ProductPage({
                 </p>
               </Section>
             ) : null}
-          </div>
 
-          <div className="space-y-5">
             <OfficialDemoCard
               productId={product.id}
               envatoItemId={product.envatoItemId}
@@ -275,7 +297,7 @@ export default async function ProductPage({
               location="product_page"
             />
 
-            {product.mercoScreenshots.length > 0 ? (
+            {product.mercoScreenshots.length > 1 ? (
               <Section title="Démonstration MERCO">
                 <div className="grid gap-3">
                   {product.mercoScreenshots.map((src) => (
@@ -298,20 +320,79 @@ export default async function ProductPage({
                 </p>
               </Section>
             ) : null}
+          </section>
+
+          <EnvatoAttribution className="text-center" />
+
+          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Link
+              href="/creer-saas/catalogue"
+              className="inline-flex items-center justify-center rounded-full border border-line-soft px-6 py-3 text-sm font-semibold text-slate-100 transition-colors hover:border-accent-soft hover:text-white"
+            >
+              Retour au catalogue
+            </Link>
           </div>
         </div>
 
-        <EnvatoAttribution className="mt-8 text-center" />
+        {/* ─────────── Barre latérale sticky ─────────── */}
+        <aside className="lg:sticky lg:top-6 lg:self-start">
+          <div className="card p-5">
+            <ScoreRing score={product.saasScore} />
 
-        <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Link
-            href="/creer-saas/catalogue"
-            className="inline-flex items-center justify-center rounded-full border border-line-soft px-6 py-3 text-sm font-semibold text-slate-100 transition-colors hover:border-accent-soft hover:text-white"
-          >
-            Retour au catalogue
-          </Link>
-        </div>
-      </section>
+            <dl className="mt-5 space-y-2 border-t border-line-soft pt-4 text-sm">
+              {[
+                { label: "Prix source", value: formatUsd(product.regularPriceUsd) },
+                {
+                  label: "Ventes observées",
+                  value:
+                    product.salesCount !== null
+                      ? String(product.salesCount)
+                      : null,
+                },
+                {
+                  label: "Note source",
+                  value:
+                    product.rating !== null
+                      ? `${product.rating} / 5`
+                      : null,
+                },
+              ]
+                .filter((row) => row.value !== null)
+                .map((row) => (
+                  <div key={row.label} className="flex items-center justify-between gap-3">
+                    <dt className="text-muted">{row.label}</dt>
+                    <dd className="font-medium text-slate-100">{row.value}</dd>
+                  </div>
+                ))}
+            </dl>
+            <p className="mt-3 text-xs text-muted">
+              Le score MERCO oriente l&apos;audit manuel. Il ne constitue jamais
+              une preuve de licence.
+            </p>
+
+            <div className="mt-5 space-y-3">
+              <ProductCta
+                productId={product.id}
+                envatoItemId={product.envatoItemId}
+                name={product.name}
+                category={product.categoryKey}
+                status={product.status}
+                saasScore={product.saasScore}
+                available={available}
+                location="product_page_cta"
+              />
+              <ProductSourceLink
+                url={product.productUrl}
+                productId={product.id}
+                envatoItemId={product.envatoItemId}
+                category={product.categoryKey}
+                location="product_page"
+                label="Ouvrir la source officielle"
+              />
+            </div>
+          </div>
+        </aside>
+      </div>
     </div>
   );
 }
