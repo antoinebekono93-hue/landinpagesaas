@@ -32,7 +32,12 @@ export const metadata: Metadata = {
 
 const EXCLUDED_STATUSES = ["rejected", "archived"];
 
-export default async function CataloguePage() {
+export default async function CataloguePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>;
+}) {
+  const { q } = await searchParams;
   const { products, mode, lastSyncedAt } = await loadCatalog();
   const cards = products
     .filter((product) => !EXCLUDED_STATUSES.includes(product.status))
@@ -42,39 +47,25 @@ export default async function CataloguePage() {
 
   return (
     <div className="w-full">
-      <section className="py-6 sm:py-8">
-        <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
-          Quel SaaS voulez-vous lancer&nbsp;?
+      <section className="pb-4">
+        <h1 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
+          Explorez les logiciels
         </h1>
-        <p className="mx-auto mt-3 max-w-2xl leading-relaxed text-muted">
-          Explorez les catégories MERCO et les candidats détectés sur Envato
-          Market. Les solutions activées commercialement sont marquées
-          «&nbsp;Disponible avec MERCO&nbsp;».
+        <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted">
+          Découvrez les applications étudiées par MERCO et trouvez celle à
+          transformer en activité SaaS.
         </p>
       </section>
 
-      {mode === "static-fallback" ? (
-        <div className="pb-2">
-          <div className="rounded-2xl border border-warn/40 bg-warn/10 px-4 py-4 text-sm leading-relaxed text-warn-soft">
-            Le catalogue automatique sera activé une fois Nhost et l&apos;API
-            Envato configurés. En attendant, voici les candidats détectés lors
-            de la recherche MERCO&nbsp;: ils sont à l&apos;étude et aucun n&apos;est
-            encore vendu avec un abonnement MERCO.
-          </div>
-        </div>
-      ) : null}
-
       {mode === "nhost" && !fresh ? (
-        <div className="pb-2">
-          <div className="rounded-2xl border border-warn/40 bg-warn/10 px-4 py-4 text-sm leading-relaxed text-warn-soft">
-            Données source en cours de mise à jour. Les informations affichées
-            restent celles de la dernière synchronisation Envato.
-          </div>
-        </div>
+        <p className="mb-4 max-w-2xl rounded-xl border border-warn/40 bg-warn/10 px-3 py-2.5 text-xs leading-relaxed text-warn-soft">
+          Données source en cours de mise à jour. Les informations affichées
+          restent celles de la dernière synchronisation Envato.
+        </p>
       ) : null}
 
-      <section className="pb-8" aria-label="Explorateur de catalogue">
-        <CatalogExplorer products={cards} categories={categories} />
+      <section aria-label="Explorateur de catalogue">
+        <CatalogExplorer products={cards} categories={categories} initialQuery={q ?? ""} />
         {lastSyncedAt ? (
           <p className="mt-6 text-center text-xs text-muted">
             {lastSyncedLabel(lastSyncedAt)}

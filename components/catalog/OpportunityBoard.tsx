@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { CatalogCardModel } from "@/lib/catalog/types";
 import { ProductCard } from "./ProductCard";
@@ -44,6 +45,23 @@ const STAGES: {
     match: (product) => product.status === "active",
   },
 ];
+
+export function OpportunityBoardCta({
+  href,
+  label = "Voir les opportunités",
+}: {
+  href: string;
+  label?: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-slate-950 transition-colors hover:bg-[#1fce5e]"
+    >
+      {label}
+    </Link>
+  );
+}
 
 export function OpportunityBoard({
   products,

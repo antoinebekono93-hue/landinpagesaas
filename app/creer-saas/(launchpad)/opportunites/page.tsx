@@ -60,16 +60,6 @@ export default async function LaunchpadOpportunitesPage({
         </p>
       </header>
 
-      {mode === "static-fallback" ? (
-        <div className="mt-4">
-          <div className="rounded-2xl border border-warn/40 bg-warn/10 px-4 py-4 text-sm leading-relaxed text-warn-soft">
-            Le catalogue automatique sera activé une fois Nhost et l&apos;API
-            Envato configurés. En attendant, les candidats affichés proviennent
-            de la recherche MERCO initiale et sont tous à l&apos;étude.
-          </div>
-        </div>
-      ) : null}
-
       {mode === "nhost" && !fresh ? (
         <div className="mt-4">
           <div className="rounded-2xl border border-warn/40 bg-warn/10 px-4 py-4 text-sm leading-relaxed text-warn-soft">

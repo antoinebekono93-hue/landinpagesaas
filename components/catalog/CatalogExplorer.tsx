@@ -39,12 +39,17 @@ type TabKey = "research" | "active";
 interface CatalogExplorerProps {
   products: CatalogCardModel[];
   categories: { key: string; label: string }[];
+  initialQuery?: string;
 }
 
-export function CatalogExplorer({ products, categories }: CatalogExplorerProps) {
+export function CatalogExplorer({
+  products,
+  categories,
+  initialQuery = "",
+}: CatalogExplorerProps) {
   const [tab, setTab] = useState<TabKey>("research");
   const [category, setCategory] = useState<string>("all");
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(initialQuery);
   const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
