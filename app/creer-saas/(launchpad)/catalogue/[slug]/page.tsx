@@ -6,7 +6,7 @@ import { ProductSourceLink } from "@/components/catalog/ProductSourceLink";
 import { OfficialDemoCard } from "@/components/catalog/OfficialDemoCard";
 import { PublicDemoCredentials } from "@/components/catalog/PublicDemoCredentials";
 import { ProductCta } from "@/components/catalog/ProductCta";
-import { ProductServiceCtas } from "@/components/catalog/ProductServiceCtas";
+import { ProductActionButtons } from "@/components/catalog/ProductActionButtons";
 import { ProductViewTracker } from "@/components/catalog/ProductViewTracker";
 import { EnvatoAttribution } from "@/components/catalog/EnvatoAttribution";
 import { ScoreRing } from "@/components/catalog/ScoreRing";
@@ -594,7 +594,8 @@ export default async function ProductPage({
             </div>
 
             <div className="mt-6 border-t border-line pt-5">
-              <ProductServiceCtas productName={product.name} />
+              {/* TODO(Medusa) : brancher isFreeDownload / downloadUrl aux champs admin */}
+              <ProductActionButtons isFreeDownload={false} downloadUrl="" />
             </div>
           </div>
         </aside>

@@ -1,36 +1,17 @@
-﻿import { useState } from "react";
+﻿"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Download, DownloadCloud, Lock, Server } from "lucide-react";
-import { waLink } from "@/lib/catalog/cta";
-
-/**
- * ProductActionButtons — Les deux actions principales d'une fiche produit du
- * catalogue MERCO.
- *
- *   1) Bouton A (dynamique) — Téléchargement du code source du SaaS :
- *      • produit en téléchargement LIBRE  → « Télécharger le Code » (fond Zinc/épuré)
- *      • abonnement requis + utilisateur Premium → « Télécharger (Inclus Premium) »
- *        (dégradé indigo → violet, icône DownloadCloud)
- *      • abonnement requis + non-Premium → « Télécharger (Premium) » : ouvre la
- *        modale « Abonnement Requis » au clic.
- *   2) Bouton B (fixe) — Hébergement managé : « Héberger mon SaaS (Hosting) »,
- *      fait défiler en douceur vers la section ProductServiceCtas de la fiche.
- *
- * ── Intégration des données réelles ──────────────────────────────────────────
- *   • isFreeDownload   ← champ « téléchargement libre ? » du produit (admin MERCO).
- *   • downloadUrl      ← URL du fichier .zip produite côté serveur.
- *   • isLoggedIn       ← à brancher sur ta session utilisateur (Medusa / Nhost).
- *   • isPremiumSubscriber ← à brancher sur l'abonnement Premium réel.
- *   Les deux derniers sont des placeholders (constantes) à remplacer par ton
- *   contexte d'authentification — voir lib/catalog/premium.ts.
- * ─────────────────────────────────────────────────────────────────────────────
- */
-
-const PREMIUM_MODAL_ID = "abonnement-requis";
 
 type ProductActionButtonsProps = {
+  /** true = téléchargement libre (admin MERCO), false = abonnement requis */
   isFreeDownload: boolean;
+  /** URL directe du fichier .zip */
   downloadUrl: string;
-  onHostingClick: () => void;
+  /** défaut : navigation vers /creer-saas/hebergement */
+  onHostingClick?: () => void;
 };
 
 export function ProductActionButtons({
@@ -38,64 +19,70 @@ export function ProductActionButtons({
   downloadUrl,
   onHostingClick,
 }: ProductActionButtonsProps) {
-  /* ── Placeholders de session — remplacer par ton contexte réel ── */
-  const isLoggedIn = false; // TODO(Medusa) : brancher la session utilisateur
-  const isPremiumSubscriber = false; // TODO(Medusa) : brancher l'abonnement Premium
-  const [showPremiumModal, setShowPremiumModal] = useState(false);
+  const router = useRouter();
 
+  // TODO(Medusa) : brancher sur la session utilisateur / abonnement réel
+  const isLoggedIn = false;
+  const isPremiumSubscriber = false;
+
+  const [showPremiumModal, setShowPremiumModal] = useState(false);
   const isGated = !isFreeDownload;
+  const canDownload = !isGated || (isLoggedIn && isPremiumSubscriber);
 
   function handleDownloadClick() {
-    if (!isGated || (isLoggedIn && isPremiumSubscriber)) {
-      window.location.assign(downloadUrl);
+    if (!canDownload) {
+      setShowPremiumModal(true);
       return;
     }
-    setShowPremiumModal(true);
+    window.location.assign(downloadUrl);
   }
 
-  function downloadLabel(): string {
-    if (!isGated) return "Télécharger le Code";
-    if (isLoggedIn && isPremiumSubscriber) return "Télécharger (Inclus Premium)";
-    return "Télécharger (Premium)";
-  }
-
-  function downloadClass(): string {
-    if (!isGated) {
-      return "inline-flex h-14 flex-1 items-center justify-center gap-2 rounded-lg bg-zinc-900 px-5 text-sm font-semibold text-white transition-all duration-200 hover:bg-zinc-800 active:scale-[0.98]";
+  function handleHostingClick() {
+    if (onHostingClick) {
+      onHostingClick();
+      return;
     }
-    if (isLoggedIn && isPremiumSubscriber) {
-      return "inline-flex h-14 flex-1 items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 px-5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition-all duration-200 hover:from-indigo-500 hover:to-violet-500 active:scale-[0.98]";
-    }
-    return "inline-flex h-14 flex-1 items-center justify-center gap-2 rounded-lg border border-line-soft bg-surface-2/50 px-5 text-sm font-semibold text-slate-100 transition-all duration-200 hover:border-accent-soft hover:text-white active:scale-[0.98]";
+    router.push("/creer-saas/hebergement");
   }
 
-  function downloadIcon() {
-    if (!isGated) return <Download className="ml-2 h-5 w-5" aria-hidden="true" />;
-    if (isLoggedIn && isPremiumSubscriber) return <DownloadCloud className="ml-2 h-5 w-5" aria-hidden="true" />;
-    return <Lock className="ml-2 h-4 w-4" aria-hidden="true" />;
-  }
+  const downloadLabel = !isGated
+    ? "Télécharger le Code"
+    : isLoggedIn && isPremiumSubscriber
+      ? "Télécharger (Inclus Premium)"
+      : "Télécharger (Premium)";
+
+  const downloadClassName = !isGated
+    ? "bg-zinc-800 text-white hover:bg-zinc-700"
+    : isLoggedIn && isPremiumSubscriber
+      ? "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-500/25 hover:from-indigo-500 hover:to-violet-500"
+      : "border border-zinc-700 bg-zinc-900 text-zinc-400 hover:border-zinc-500 hover:text-white";
 
   return (
-    <>
-      <div className="flex w-full flex-col gap-3 sm:flex-row">
+    <div className="rounded-xl bg-zinc-900 p-4">
+      <div className="flex flex-col gap-3 sm:flex-row">
         <button
           type="button"
           onClick={handleDownloadClick}
-          aria-haspopup={isGated && !(isLoggedIn && isPremiumSubscriber) ? "dialog" : undefined}
-          className={downloadClass()}
+          aria-haspopup={!canDownload ? "dialog" : undefined}
+          className={`inline-flex h-14 flex-1 items-center justify-center rounded-lg px-5 text-sm font-semibold transition-all duration-200 active:scale-[0.98] ${downloadClassName}`}
         >
-          {downloadLabel()}
-          {downloadIcon()}
+          {downloadLabel}
+          {!isGated ? (
+            <Download className="ml-2 h-5 w-5" />
+          ) : isLoggedIn && isPremiumSubscriber ? (
+            <DownloadCloud className="ml-2 h-5 w-5" />
+          ) : (
+            <Lock className="ml-2 h-4 w-4" />
+          )}
         </button>
 
         <button
           type="button"
-          onClick={onHostingClick}
-          aria-label="Héberger mon SaaS (Hosting)"
-          className="inline-flex h-14 flex-1 items-center justify-center gap-2 rounded-lg border border-line-soft bg-transparent px-5 text-sm font-semibold text-slate-100 transition-all duration-200 hover:border-accent-soft hover:text-white active:scale-[0.98]"
+          onClick={handleHostingClick}
+          className="inline-flex h-14 flex-1 items-center justify-center rounded-lg border border-zinc-700 bg-transparent px-5 text-sm font-semibold text-white transition-all duration-200 hover:border-zinc-500 hover:bg-zinc-800 active:scale-[0.98]"
         >
           Héberger mon SaaS (Hosting)
-          <Server className="ml-2 h-5 w-5" aria-hidden="true" />
+          <Server className="ml-2 h-5 w-5" />
         </button>
       </div>
 
@@ -103,38 +90,38 @@ export function ProductActionButtons({
         <div
           role="dialog"
           aria-modal="true"
-          aria-labelledby={`${PREMIUM_MODAL_ID}-title`}
-          aria-describedby={`${PREMIUM_MODAL_ID}-desc`}
+          aria-labelledby="premium-modal-title"
           className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 p-4"
           onClick={() => setShowPremiumModal(false)}
         >
           <div
-            className="w-full max-w-sm rounded-2xl border border-line-soft bg-surface-2 p-6 shadow-2xl"
+            className="w-full max-w-sm rounded-2xl border border-zinc-700 bg-zinc-900 p-6 shadow-2xl"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/10 text-accent">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-500/15 text-indigo-400">
               <Lock className="h-5 w-5" />
             </div>
-            <h2 id={`${PREMIUM_MODAL_ID}-title`} className="mt-4 text-lg font-bold text-slate-100">
+            <h2
+              id="premium-modal-title"
+              className="mt-4 text-lg font-bold text-white"
+            >
               Abonnement Requis
             </h2>
-            <p id={`${PREMIUM_MODAL_ID}-desc`} className="mt-2 text-sm leading-relaxed text-muted">
-              Ce code source est réservé aux membres Premium. Rejoignez le Club MERCO
+            <p className="mt-2 text-sm leading-relaxed text-zinc-400">
+              Ce script est réservé aux membres Premium. Rejoignez le Club MERCO
               pour le télécharger.
             </p>
             <div className="mt-6 flex flex-col gap-2">
-              <a
-                href={waLink("Bonjour MERCO 👋 Je souhaite passer à Premium pour télécharger ce code source.")}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/creer-saas/premium"
                 className="inline-flex h-11 items-center justify-center rounded-lg bg-accent px-4 text-sm font-semibold text-slate-950 transition-all duration-200 hover:bg-accent-strong"
               >
-                Passer à Premium
-              </a>
+                Rejoindre le Club MERCO
+              </Link>
               <button
                 type="button"
                 onClick={() => setShowPremiumModal(false)}
-                className="inline-flex h-11 items-center justify-center rounded-lg border border-line-soft px-4 text-sm font-semibold text-slate-100 transition-colors hover:border-accent-soft hover:text-white"
+                className="inline-flex h-11 items-center justify-center rounded-lg border border-zinc-700 px-4 text-sm font-semibold text-zinc-300 transition-all duration-200 hover:border-zinc-500 hover:text-white"
               >
                 Plus tard
               </button>
@@ -142,6 +129,6 @@ export function ProductActionButtons({
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
