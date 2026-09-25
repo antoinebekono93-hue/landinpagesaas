@@ -6,6 +6,7 @@ import { ProductSourceLink } from "@/components/catalog/ProductSourceLink";
 import { OfficialDemoCard } from "@/components/catalog/OfficialDemoCard";
 import { PublicDemoCredentials } from "@/components/catalog/PublicDemoCredentials";
 import { ProductCta } from "@/components/catalog/ProductCta";
+import { ProductServiceCtas } from "@/components/catalog/ProductServiceCtas";
 import { ProductViewTracker } from "@/components/catalog/ProductViewTracker";
 import { EnvatoAttribution } from "@/components/catalog/EnvatoAttribution";
 import { ScoreRing } from "@/components/catalog/ScoreRing";
@@ -15,6 +16,7 @@ import { FeaturesGrid } from "@/components/catalog/FeaturesGrid";
 import { ConfidenceTag } from "@/components/catalog/ConfidenceTag";
 import { SourceHistoryCard } from "@/components/catalog/SourceHistoryCard";
 import { OpportunityBoardCta } from "@/components/catalog/OpportunityBoard";
+import { ResourcesList, ResourcesEmptyState } from "@/components/catalog/ResourcesList";
 import { ProductTabs, ProductTabContent } from "@/components/catalog/ProductTabs";
 import { IconLayers } from "@/components/icons";
 import { loadProductBySlug, getFallbackSlugs } from "@/lib/catalog/source";
@@ -261,6 +263,22 @@ export default async function ProductPage({
                   category={product.categoryKey}
                   location="product_page"
                 />
+              </div>
+            </ProductTabContent>
+
+            <ProductTabContent label="Ressources">
+              <div className="space-y-5" data-tab-panel="ressources">
+                {product.resources.length > 0 ? (
+                  <ResourcesList resources={product.resources} />
+                ) : (
+                  <ResourcesEmptyState />
+                )}
+                <p className="text-xs leading-relaxed text-muted">
+                  Chaque ressource est contrôlée séparément&nbsp;: une ressource
+                  Premium ne bloque jamais les ressources gratuites ou publiques.
+                  Les accès sont vérifiés côté serveur avant chaque
+                  téléchargement.
+                </p>
               </div>
             </ProductTabContent>
 
@@ -573,6 +591,10 @@ export default async function ProductPage({
                 location="product_page"
                 label="Ouvrir la source officielle"
               />
+            </div>
+
+            <div className="mt-6 border-t border-line pt-5">
+              <ProductServiceCtas productName={product.name} />
             </div>
           </div>
         </aside>

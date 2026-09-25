@@ -12,6 +12,8 @@ import type {
   CatalogLoadResult,
   CatalogProductRow,
   CatalogProductView,
+  CatalogResourceRow,
+  CatalogResourceView,
   CatalogSourceMode,
   DemoCredentialRow,
   DemoCredentialView,
@@ -155,6 +157,7 @@ function staticItemToView(item: ResearchSaaS): CatalogProductView {
     mercoScreenshots: item.mercoScreenshots ?? [],
     sourceMissingSince: null,
     demoCredentials,
+    resources: [],
   };
 }
 
@@ -174,7 +177,8 @@ function asStringList(value: unknown): string[] {
 
 function rowToView(
   row: CatalogProductRow,
-  credentials: DemoCredentialView[]
+  credentials: DemoCredentialView[],
+  resources: CatalogResourceView[] = []
 ): CatalogProductView {
   const multiTenantRaw =
     row.multi_tenant_status === "true" ||
@@ -222,7 +226,82 @@ function rowToView(
     mercoScreenshots: asStringList(row.merco_screenshots),
     sourceMissingSince: row.source_missing_since,
     demoCredentials: credentials,
+    resources,
   };
+}
+
+/* ─────────────────────────── Ressources (marketplace) ─────────────────── */
+
+const RESOURCE_ROW_FIELDS = `
+  id
+  product_id
+  title
+  description
+  type
+  access_level
+  file_path
+  external_url
+  version
+  changelog
+  is_active
+  sort_order
+  created_at
+  updated_at
+`;
+
+function resourceRowToView(row: CatalogResourceRow): CatalogResourceView {
+  return {
+    id: row.id,
+    productId: row.product_id,
+    title: row.title,
+    description: row.description,
+    type: row.type,
+    accessLevel: row.access_level,
+    hasFile: Boolean(row.file_path),
+    externalUrl: row.external_url,
+    version: row.version,
+    changelog: row.changelog,
+  };
+}
+
+async function fetchActiveResources(ids: string[]): Promise<CatalogResourceRow[]> {
+  if (!isNhostConfigured() || ids.length === 0) return [];
+  try {
+    const data = await nhostGraphQL<{ catalog_resources: CatalogResourceRow[] }>(
+      `query GetActiveResources($ids: [uuid!]) {
+        catalog_resources(
+          where: { product_id: { _in: $ids }, is_active: { _eq: true } }
+          order_by: { sort_order: asc }
+        ) {
+          ${RESOURCE_ROW_FIELDS}
+        }
+      }`,
+      { ids }
+    );
+    return data.catalog_resources ?? [];
+  } catch {
+    return [];
+  }
+}
+
+/** Charge une ressource par id (y compris `file_path`, usage serveur uniquement). */
+export async function loadResourceRowById(
+  id: string
+): Promise<CatalogResourceRow | null> {
+  if (!isNhostConfigured()) return null;
+  try {
+    const data = await nhostGraphQL<{ catalog_resources: CatalogResourceRow[] }>(
+      `query GetResourceRow($id: uuid!) {
+        catalog_resources(where: { id: { _eq: $id } }, limit: 1) {
+          ${RESOURCE_ROW_FIELDS}
+        }
+      }`,
+      { id }
+    );
+    return data.catalog_resources?.[0] ?? null;
+  } catch {
+    return null;
+  }
 }
 
 /* ─────────────────────────── Reads (Nhost) ─────────────────────────── */
@@ -373,9 +452,16 @@ export async function loadProductBySlug(slug: string): Promise<{
     );
     const row = data.catalog_products?.[0];
     if (!row) return null;
-    const creds = await fetchCredentials([row.id]);
+    const [creds, resources] = await Promise.all([
+      fetchCredentials([row.id]),
+      fetchActiveResources([row.id]),
+    ]);
     return {
-      product: rowToView(row, credentialsToViews(creds)[row.id] ?? []),
+      product: rowToView(
+        row,
+        credentialsToViews(creds)[row.id] ?? [],
+        resources.map(resourceRowToView)
+      ),
       mode: "nhost",
     };
   } catch (error) {

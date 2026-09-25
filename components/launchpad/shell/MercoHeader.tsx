@@ -15,27 +15,28 @@ interface ProfileUser {
 }
 
 const profileGroups: { title: string; items: { label: string; href: string }[] }[] = [
-  {
-    title: "Business",
-    items: [
-      { label: "Mes applications", href: "/creer-saas/mes-applications" },
-      { label: "Déploiements", href: "/creer-saas/deploiements" },
-      { label: "MERCO Business", href: "/creer-saas" },
-    ],
-  },
-  {
-    title: "Ressources",
-    items: [
-      { label: "Bibliothèque", href: "/bibliotheque" },
-      { label: "Catalogue", href: "/creer-saas/catalogue" },
-      { label: "Opportunités", href: "/creer-saas/opportunites" },
-    ],
-  },
+    {
+      title: "Business",
+      items: [
+        { label: "Mes applications", href: "/creer-saas/mes-applications" },
+        { label: "Déploiements", href: "/creer-saas/deploiements" },
+        { label: "MERCO Business", href: "/creer-saas" },
+      ],
+    },
+      {
+        title: "Ressources",
+        items: [
+          { label: "Bibliothèque", href: "/bibliotheque" },
+          { label: "Catalogue", href: "/creer-saas/catalogue" },
+          { label: "Opportunités", href: "/creer-saas/opportunites" },
+        ],
+      },
 ];
 
 const desktopNav = [
   { label: "Catalogue", href: "/creer-saas/catalogue" },
   { label: "Opportunités", href: "/creer-saas/opportunites" },
+  { label: "Premium", href: "/creer-saas/premium" },
   { label: "MERCO Business", href: "/creer-saas" },
 ];
 

@@ -101,6 +101,44 @@ export type AdminAuditRow = {
   created_at?: string;
 };
 
+/** Types de ressource numérique d'un produit. */
+export type CatalogResourceType =
+  | "hosted_download"
+  | "external_download"
+  | "preview"
+  | "documentation";
+
+/** Niveau d'accès d'une ressource. */
+export type CatalogResourceAccessLevel = "public" | "free" | "premium";
+
+/** Ligne de la table `catalog_resources` (colonnes Nhost/Hasura). */
+export type CatalogResourceRow = {
+  id: string;
+  product_id: string;
+  title: string;
+  description: string | null;
+  type: CatalogResourceType;
+  access_level: CatalogResourceAccessLevel;
+  file_path: string | null;
+  external_url: string | null;
+  version: string | null;
+  changelog: string | null;
+  is_active: boolean;
+  sort_order: number;
+  created_at?: string;
+  updated_at?: string;
+};
+
+/** Ligne de la table `catalog_resource_access_logs` (journal réel d'accès). */
+export type ResourceAccessLogRow = {
+  id: string;
+  resource_id: string;
+  user_id: string | null;
+  ip: string | null;
+  user_agent: string | null;
+  created_at: string;
+};
+
 /* ─────────────────────────── Vues publiques ─────────────────────────── */
 
 /** Identifiant public de démo (ajouté manuellement depuis l'admin). */
@@ -155,6 +193,25 @@ export type CatalogProductView = {
   mercoScreenshots: string[];
   sourceMissingSince: string | null;
   demoCredentials: DemoCredentialView[];
+  resources: CatalogResourceView[];
+};
+
+/**
+ * Vue publique d'une ressource numérique (jamais de `file_path`).
+ * `hasFile` indique qu'un fichier est stocké côté MERCO sans exposer son
+ * chemin (il est servi uniquement via la route d'accès autorisée).
+ */
+export type CatalogResourceView = {
+  id: string;
+  productId: string;
+  title: string;
+  description: string | null;
+  type: CatalogResourceType;
+  accessLevel: CatalogResourceAccessLevel;
+  hasFile: boolean;
+  externalUrl: string | null;
+  version: string | null;
+  changelog: string | null;
 };
 
 /** Modèle léger pour les cartes du catalogue (jamais de credentials côté client). */

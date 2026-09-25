@@ -186,6 +186,78 @@ export async function authorizeAdminRequest(
   return verifyAdminToken(token);
 }
 
+/** Valide un JWT Nhost auprès du serveur Auth (role quelconque, pas admin). */
+export async function verifyUserToken(token: string): Promise<NhostAuthUser> {
+  if (!token) {
+    throw new NhostServerError("Token manquant.", "unauthorized", 401);
+  }
+  requireNhost();
+
+  const response = await fetch(`${nhostAuthUrl()}/user`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Prefer: "return=representation",
+    },
+    cache: "no-store",
+  });
+
+  if (response.status === 401 || response.status === 403) {
+    throw new NhostServerError(
+      "Session Nhost invalide ou expirée.",
+      "unauthorized",
+      401
+    );
+  }
+  if (!response.ok) {
+    throw new NhostServerError(
+      `Le serveur Auth Nhost a répondu ${response.status}.`,
+      "graphql",
+      response.status
+    );
+  }
+
+  let data: Record<string, unknown>;
+  try {
+    data = (await response.json()) as Record<string, unknown>;
+  } catch {
+    throw new NhostServerError(
+      "Réponse Auth Nhost invalide.",
+      "graphql",
+      502
+    );
+  }
+
+  return {
+    id: String(data.id ?? ""),
+    email:
+      typeof data.email === "string"
+        ? data.email
+        : ((data.email as string | null) ?? null),
+    displayName:
+      typeof data.displayName === "string"
+        ? data.displayName
+        : ((data.display_name as string | null | undefined) ?? null),
+    defaultRole:
+      typeof data.default_role === "string" ? data.default_role : undefined,
+    roles: [],
+  };
+}
+
+/** Demande un Bearer utilisateur (tout utilisateur authentifié) depuis une requête. */
+export async function authorizeUserRequest(
+  request: Request
+): Promise<NhostAuthUser | null> {
+  const authorization = request.headers.get("authorization") ?? "";
+  const token = authorization.startsWith("Bearer ")
+    ? authorization.slice("Bearer ".length).trim()
+    : "";
+  if (!token) return null;
+  return verifyUserToken(token);
+}
+
 /** Lit le cookie de session admin s'il existe. */
 export function readAdminCookie(request: Request): string | null {
   const cookieHeader = request.headers.get("cookie") ?? "";
