@@ -1,5 +1,6 @@
 import { waLink } from "@/lib/catalog/cta";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { ProductActionButtons } from "@/components/catalog/ProductActionButtons";
 
 /**
  * Offre services & tarifs MERCO Business d'un SaaS du catalogue.
